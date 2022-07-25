@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Regression Excel</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <div id="content" class="content">
+    <input type="file" id="input-excel" name="input-excel">
+    <!-- TODO: Crear el metodo de calcular la regresion-->
+    <div id="table-content" class="table-content"></div>
+    <canvas id="myGraph" width="600" height="250"></canvas>
+  </div>
+  <script src="js/Main.js"></script>
+  <script>
+    init("Linear Regression Excel", "dataExcel");
+  </script>
+  <script src="js/Graph.js"></script>
+  <script src="js/Sheet.js"></script>
+</body>
+</html>
