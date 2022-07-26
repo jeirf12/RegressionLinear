@@ -41,9 +41,10 @@ const selectEvents = () => {
 let select = document.getElementById("data-input");
 select.addEventListener("change", (e) => {
   let valueSelect = e.target.value;
+  console.log("value "+valueSelect)
   if (valueSelect === "dataExcel") location.href = "viewExcel.html";
   if (valueSelect === "dataManual") location.href = "viewManual.html";
-  if (valueSelect === "") location.href = "index.html";
+  if (valueSelect === "data") location.replace(location.origin);
 })
 }
 
