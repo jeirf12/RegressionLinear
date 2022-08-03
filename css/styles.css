@@ -1,8 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
 .content {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20% auto;
   flex-direction: column;
   flex: 1 1 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.content-input {
+  padding: 0 1% 1% 1%;
+}
+
+.content-input , .content-buttons, #data-input{
+  width: inherit;
+}
+
+#input-excel {
+  width: 27%;
+  appearance: none;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  margin:0;
+  font-weight: 400;
+  padding: 0.5%;
+}
+
+#data-input {
+  width: 28%;
+  padding: 0.5%;
+  text-align: center;
+  margin: 0 0 1.2% 0;
+  border-radius: 10px;
+}
+
+.content-input input {
+  margin: 0.1% 0.8%;
+  padding: 0.8% 0;
+  text-align: center;
+}
+
+.content-input-header{
+  margin: 0.1% 0.8%;
+  padding: 0.5%;
+}
+
+.content-input span {
+  padding: 2% 5%;
+}
+
+#myGraph{
+  display: flex;
+  margin: 2% 30%;
+  flex-direction: row;
 }
