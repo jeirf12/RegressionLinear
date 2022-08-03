@@ -119,17 +119,20 @@ class RowCollection {
 
 class Utilities {
   static showTable(idTable, dataExcel) {
-      const table = document.getElementById(idTable);
-      const tab = document.createElement("table");
-      const tr = document.createElement("tr");
-      const th = document.createElement("thead");
-      const tb = document.createElement("tbody");
+      let table = document.getElementById(idTable);
+      let titleTable = document.createElement("h4");
+      titleTable.textContent = "Tabla Ingresada";
+      let tab = document.createElement("table");
+      let tr = document.createElement("tr");
+      let th = document.createElement("thead");
+      let tb = document.createElement("tbody");
       th.appendChild(tr);
       tab.appendChild(th);
       tab.appendChild(tb);
+      table.appendChild(titleTable);
       table.appendChild(tab);
-	  table.querySelector("thead>tr").innerHTML += `<td>X</td>` 
-	  table.querySelector("thead>tr").innerHTML += `<td>Y</td>` 
+	  table.querySelector("thead>tr").innerHTML += `<th>X</th>` 
+	  table.querySelector("thead>tr").innerHTML += `<th>Y</th>` 
       dataExcel.getRows().forEach((row) => {
 	    table.querySelector('tbody').innerHTML += `
 			<tr>
@@ -141,9 +144,9 @@ class Utilities {
 	  var promeX = dataExcel.averageX()
 	  var promeY = dataExcel.averageY()
 	  var funcion = dataExcel.getFunction()
-      const title = document.createElement("p");
+      let title = document.createElement("p");
       title.content = 'Datos obtenidos';
-      const body = document.createElement("p");
+      let body = document.createElement("p");
 	  body.innerHTML = `El promedio en X es: ${promeX} <br>
 		 El promedio de Y es : ${promeY} <br>
 		 La función de mínimos cuadrados es : ${funcion}
@@ -153,6 +156,7 @@ class Utilities {
   }
 
   static showGraph(columnX, columnY, columnFunction="") {
+      document.getElementById("myGraph").innerHTML = '';
       let graph = document.getElementById("myGraph").getContext("2d")
       let data = [];
       if (columnFunction === "") data.push({
@@ -169,8 +173,9 @@ class Utilities {
             type: "line",
             label: "grafico Funcion",
             data: columnFunction,
-			backgroundColor: "rgb(0,0,0)"
-      });
+			backgroundColor: "rgb(128,0,128)",
+            borderColor: "rgba(128, 0, 128, 0.4)"
+        });
       }
       let myChart = new Chart(graph, {
         type: "scatter",
@@ -300,6 +305,7 @@ const addButton = () => {
 }
 
 const showResult = () => {
+    document.getElementById("table-content").innerHTML = '';
 	let table = []
 	for (var i = 0; i <= document.querySelectorAll(".parametro").length -1 ; i++) {
 		var aux = Number(document.querySelectorAll(".parametro")[i].value) 	
