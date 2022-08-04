@@ -454,6 +454,7 @@ const addButton = () => {
 
 const showResult = () => {
     document.getElementById("table-content").innerHTML = '';
+    document.getElementById("table-content-data").innerHTML = '';
 	let table = []
 	for (var i = 0; i <= document.querySelectorAll(".parametro").length -1 ; i++) {
         let parameter = document.querySelectorAll(".parametro")[i].value;
