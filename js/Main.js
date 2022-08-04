@@ -278,10 +278,6 @@ class Utilities {
         window.graph.clear();
         window.graph.destroy();
       }
-      // let content = document.getElementById("content");
-      // let title = document.createElement("h4");
-      // title.content = "Grafica de Dispersion";
-      // content.insertBefore(title,graph);
       document.getElementById("myGraph").style.opacity = 1;
       let graph = document.getElementById("myGraph").getContext("2d")
       let data = [];
@@ -354,6 +350,15 @@ const init = (datatitle, valueSelect) => {
     content.appendChild(select);
   }
   selectEvents();
+  // buttonStartEvents();
+}
+
+const buttonStartEvents = () => {
+  let button = document.getElementById("as");
+  button.addEventListener("onclick", (e) => {
+    let content = document.getElementById("content");
+    content.style.opacity = 1;
+  })
 }
 
 const selectEvents = () => {
