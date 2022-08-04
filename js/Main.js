@@ -244,18 +244,33 @@ class Utilities {
 			</tr>
 			`
       });
+      let table2 = document.getElementById("table-content-data");
 	  var promeX = dataExcel.averageX()
 	  var promeY = dataExcel.averageY()
 	  var funcion = dataExcel.getFunction()
-      let title = document.createElement("p");
-      title.content = 'Datos obtenidos';
-      let body = document.createElement("p");
-	  body.innerHTML = `El promedio en X es: ${promeX} <br>
-		 El promedio de Y es : ${promeY} <br>
-		 La función de mínimos cuadrados es : ${funcion}
-		 `
-      table.appendChild(title);
-      table.appendChild(body);
+      let titleTable2 = document.createElement("h4");
+      titleTable2.textContent = 'Datos obtenidos';
+      let tab2 = document.createElement("table");
+      let tr2 = document.createElement("tr");
+      let th2 = document.createElement("thead");
+      let tb2 = document.createElement("tbody");
+      th2.appendChild(tr2);
+      tab2.appendChild(th2);
+      tab2.appendChild(tb2);
+      table2.appendChild(titleTable2);
+      table2.appendChild(tab2);
+	  table2.querySelector('tbody').innerHTML +=`
+        <tr>
+          <th>promedio X</th>
+          <th>Promedio Y</th>
+          <th>funcion</th>
+        </tr>
+        <tr>
+          <td>${promeX}</td>
+          <td>${promeY}</td>
+          <td>${funcion}</td>
+        </tr>
+		 `;
   }
 
   static showGraph(columnX, columnY, columnFunction="") {
@@ -263,6 +278,10 @@ class Utilities {
         window.graph.clear();
         window.graph.destroy();
       }
+      // let content = document.getElementById("content");
+      // let title = document.createElement("h4");
+      // title.content = "Grafica de Dispersion";
+      // content.insertBefore(title,graph);
       document.getElementById("myGraph").style.opacity = 1;
       let graph = document.getElementById("myGraph").getContext("2d")
       let data = [];
@@ -366,16 +385,8 @@ const addTable = () => {
     input[0].appendChild(addRow());
   });
   document.getElementsByClassName("showResult")[0].addEventListener("click", () => {
-    validateFieldsEmpty();
     showResult();
   });
-}
-
-const validateFieldsEmpty = () => {
-  document.querySelectorAll(".parametro").forEach((value, index) => {
-    let par = value;
-    console.log(par.value === "");
-  })
 }
 
 const addTitles = (root) => {
