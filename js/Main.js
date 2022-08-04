@@ -87,6 +87,60 @@ class RowCollection {
     return average;
   }
 
+  getCovariance() {
+    let firstTerm = this.summationXY() / this.size();
+    let secondTerm = this.averageX() * this.averageY();
+    let covariance = firstTerm - secondTerm;
+    return covariance;
+  }
+
+  getSCR() {
+    let a = this.getA();
+    let b = this.getB();
+
+    let sumY = this.summationY();
+    let sumXY = this.summationXY();
+    let n = this.size();
+    let valueAverageY = this.averageY();
+    let scr = (a * sumY) + (b * sumXY) - (n * valueAverageY * valueAverageY);
+    return scr;
+  }
+
+  getSCE() {
+    let firstTerm = this.summationY() * this.summationY();
+    let secondTerm = this.getA() * this.summationY();
+    let thirdTerm = this.getB() * this.summationXY();
+    let sce = firstTerm - secondTerm - thirdTerm;
+    return sce;
+  }
+
+  getSCT() {
+    let valueAverageY = this.averageY();
+    let columnY = this.getColumnY();
+    let sum = 0;
+    columnY.forEach((Y) => {
+      let aux = Y - valueAverageY;
+      let aux2 = aux * aux;
+      sum += aux2;
+    })
+    return sum;
+  }
+
+  getCMR() {
+    let cmr = this.getSCT()/1;
+    return cmr;
+  }
+
+  getCME() {
+    let cme = this.getSCE() / (this.size() - 2);
+    return cme;
+  }
+
+  getF() {
+    let f = this.getCMR() / this.getCME();
+    return f;
+  }
+
   getB(){
 	let numerator = this.summationXY() - (this.size() * this.averageX() * this.averageY());
 	let divisor = this.summationSquareX() - (this.size() * this.averageX() * this.averageX());
@@ -118,6 +172,55 @@ class RowCollection {
 }
 
 class Utilities {
+  static showTableAnova(idTable, dataExcel) {
+      let table = document.getElementById(idTable);
+      table.innerHTML = '';
+      let titleTable = document.createElement("h4");
+      titleTable.textContent = "Tabla Anova";
+      let tab = document.createElement("table");
+      let tr = document.createElement("tr");
+      let th = document.createElement("thead");
+      let tb = document.createElement("tbody");
+      th.appendChild(tr);
+      tab.appendChild(th);
+      tab.appendChild(tb);
+      table.appendChild(titleTable);
+      table.appendChild(tab);
+	  table.querySelector("thead>tr").innerHTML += `<th>Fuente</th>` 
+	  table.querySelector("thead>tr").innerHTML += `<th>SC</th>` 
+	  table.querySelector("thead>tr").innerHTML += `<th>GL</th>` 
+	  table.querySelector("thead>tr").innerHTML += `<th>CM</th>` 
+	  table.querySelector("thead>tr").innerHTML += `<th>Fc</th>` 
+      let scr = dataExcel.getSCR();
+      let sce = dataExcel.getSCE();
+      let sct = scr + sce;
+      let glr = 1;
+      let glt = dataExcel.size() - 1;
+      let gle = glt - glr;
+	    table.querySelector('tbody').innerHTML += `
+			<tr>
+				<td>Regr. Lineal</td>
+				<td>${dataExcel.getSCR()}</td>
+				<td>${glr}</td>
+				<td>${dataExcel.getCMR()}</td>
+				<td>${dataExcel.getF()}</td>
+			</tr>
+			<tr>
+				<td>Error</td>
+				<td>${dataExcel.getSCE()}</td>
+				<td>${gle}</td>
+				<td>${dataExcel.getCME()}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>T</td>
+				<td>${sct}</td>
+				<td>${glt}</td>
+				<td>${sct/glt}</td>
+				<td></td>
+			</tr>
+			`
+  }
   static showTable(idTable, dataExcel) {
       let table = document.getElementById(idTable);
       let titleTable = document.createElement("h4");
@@ -156,7 +259,11 @@ class Utilities {
   }
 
   static showGraph(columnX, columnY, columnFunction="") {
-      document.getElementById("myGraph").innerHTML = '';
+      if (window.graph) {
+        window.graph.clear();
+        window.graph.destroy();
+      }
+      document.getElementById("myGraph").style.opacity = 1;
       let graph = document.getElementById("myGraph").getContext("2d")
       let data = [];
       if (columnFunction === "") data.push({
@@ -177,7 +284,7 @@ class Utilities {
             borderColor: "rgba(128, 0, 128, 0.4)"
         });
       }
-      let myChart = new Chart(graph, {
+      window.graph = new Chart(graph, {
         type: "scatter",
         data: {
           labels: columnX,
@@ -259,8 +366,16 @@ const addTable = () => {
     input[0].appendChild(addRow());
   });
   document.getElementsByClassName("showResult")[0].addEventListener("click", () => {
+    validateFieldsEmpty();
     showResult();
   });
+}
+
+const validateFieldsEmpty = () => {
+  document.querySelectorAll(".parametro").forEach((value, index) => {
+    let par = value;
+    console.log(par.value === "");
+  })
 }
 
 const addTitles = (root) => {
@@ -277,12 +392,15 @@ const addTitles = (root) => {
 
 const addRow = () => {
   let div = document.createElement("div");
+  div.setAttribute("class", "content-input-number");
   let input1 = document.createElement("input");
-  input1.setAttribute("type", "text");
+  input1.setAttribute("type", "number");
   input1.setAttribute("class", "parametro");
+  input1.setAttribute("onkeypress", "return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)");
   let input2 = document.createElement("input");
-  input2.setAttribute("type", "text");
+  input2.setAttribute("type", "number");
   input2.setAttribute("class", "valor");
+  input2.setAttribute("onkeypress", "return (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)");
   div.appendChild(input1);
   div.appendChild(input2);
   return div;
@@ -308,10 +426,17 @@ const showResult = () => {
     document.getElementById("table-content").innerHTML = '';
 	let table = []
 	for (var i = 0; i <= document.querySelectorAll(".parametro").length -1 ; i++) {
-		var aux = Number(document.querySelectorAll(".parametro")[i].value) 	
-		var aux2 = Number(document.querySelectorAll(".valor")[i].value)
+        let parameter = document.querySelectorAll(".parametro")[i].value;
+        let value = document.querySelectorAll(".valor")[i].value;
+        let aux = parameter !== "" ? Number(parameter): -1;
+        let aux2 = value !== "" ? Number(value): -1;
         table.push({"X": aux, "Y": aux2})
 	}
+    if(!verifiedOnlyNumber(table)) {
+      alert("Alguno de los datos no es un numero valido");
+      location.href = "viewManual.html";
+      return;
+    }
     let arrayX = [];
     table.forEach((row) => {
       arrayX.push(row.X);
@@ -323,6 +448,7 @@ const showResult = () => {
     }
     let row = new Row(table);
     let dataExcel = new RowCollection(row);
+    Utilities.showTableAnova("table-content-anova", dataExcel);
     Utilities.showTable("table-content", dataExcel);
     Utilities.showGraph(dataExcel.getColumnX(), dataExcel.getColumnY(), dataExcel.getValuesFunction());
 }
@@ -344,6 +470,12 @@ const inputExcel = () => {
         location.href = "viewExcel.html";
         return;
       }
+      console.log(arraySheet);
+      if(!verifiedOnlyNumber(arraySheet)) {
+        alert("Alguno de los datos no es un numero valido");
+        location.href = "viewExcel.html";
+        return;
+      }
       let arrayX = [];
       arraySheet.forEach((row) => {
         arrayX.push(row.X);
@@ -355,6 +487,7 @@ const inputExcel = () => {
       }
       let row = new Row(arraySheet);
       let dataExcel = new RowCollection(row);
+      Utilities.showTableAnova("table-content-anova", dataExcel);
       Utilities.showTable("table-content", dataExcel);
       Utilities.showGraph(dataExcel.getColumnX(), dataExcel.getColumnY(), dataExcel.getValuesFunction());
     }
@@ -367,6 +500,18 @@ const inputExcel = () => {
 const verifiedDataRepeat = (array) => {
   let set = new Set(array);
   return set.size === array.length;
+}
+
+const verifiedOnlyNumber = (array) => {
+  let value = 0;
+  // let reg = /^[1-9]\d*(\.\d+)?$/;
+  // let reg = /^(\d+(\.\d+)?)$/
+  let reg = /(^\d*\.?\d*[0-9]+\d*$)|(^[0-9]+\d*\.\d*$)/;
+  array.forEach((row) => {
+    if(reg.test(row.X) && reg.test(row.Y)) value++;
+  })
+  console.log(value, array.length);
+  return value === array.length;
 }
 
 const addTableAnova = (idTable) => {
