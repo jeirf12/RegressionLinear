@@ -278,8 +278,22 @@ class Utilities {
         window.graph.clear();
         window.graph.destroy();
       }
+      let context = document.getElementById('content');
       document.getElementById("myGraph").style.opacity = 1;
       let graph = document.getElementById("myGraph").getContext("2d")
+      let div = document.createElement("div");
+      div.setAttribute('class', 'input-colors');
+      let color = document.createElement("input");
+      let color2 = document.createElement("input");
+      color.setAttribute('type', 'color');
+      color.setAttribute('id', 'graphD');
+      color2.setAttribute('type', 'color');
+      color2.setAttribute('id', 'graphF');
+      console.log(color);
+      console.log(context);
+      div.appendChild(color);
+      div.appendChild(color2);
+      // context.appendChild(div);
       let data = [];
       if (columnFunction === "") data.push({
             label: "grafico Dispersion",
@@ -350,15 +364,12 @@ const init = (datatitle, valueSelect) => {
     content.appendChild(select);
   }
   selectEvents();
+  // let colorGraph = document.getElementById('graphD');
+  // colorGraph.addEventListener("onclick", (e) => {
+    // console.log(e.target.value);
+    // content.insertBefore(colorGraph, graph);
+  // })
   // buttonStartEvents();
-}
-
-const buttonStartEvents = () => {
-  let button = document.getElementById("as");
-  button.addEventListener("onclick", (e) => {
-    let content = document.getElementById("content");
-    content.style.opacity = 1;
-  })
 }
 
 const selectEvents = () => {
@@ -397,12 +408,15 @@ const addTable = () => {
 const addTitles = (root) => {
   let div = document.createElement("div");
   div.setAttribute("class", "content-input-header")
+  let cosa = document.createElement('span');
+  cosa.textContent = 'Digite solo numeros';
   let p1 = document.createElement("span");
   p1.textContent = "X";
   let p2 = document.createElement("span");
   p2.textContent = "Y";
   div.appendChild(p1);
   div.appendChild(p2);
+  root.appendChild(cosa);
   root.appendChild(div);
 }
 
@@ -412,11 +426,11 @@ const addRow = () => {
   let input1 = document.createElement("input");
   input1.setAttribute("type", "number");
   input1.setAttribute("class", "parametro");
-  input1.setAttribute("onkeypress", "return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46)");
+  input1.setAttribute("onkeypress", "if((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46) { return true } else { alert('digite un numero valido'); return false; }");
   let input2 = document.createElement("input");
   input2.setAttribute("type", "number");
   input2.setAttribute("class", "valor");
-  input2.setAttribute("onkeypress", "return (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)");
+  input2.setAttribute("onkeypress", "if((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46) { return true } else { alert('digite un numero valido'); return false; }");
   div.appendChild(input1);
   div.appendChild(input2);
   return div;
@@ -520,8 +534,6 @@ const verifiedDataRepeat = (array) => {
 
 const verifiedOnlyNumber = (array) => {
   let value = 0;
-  // let reg = /^[1-9]\d*(\.\d+)?$/;
-  // let reg = /^(\d+(\.\d+)?)$/
   let reg = /(^\d*\.?\d*[0-9]+\d*$)|(^[0-9]+\d*\.\d*$)/;
   array.forEach((row) => {
     if(reg.test(row.X) && reg.test(row.Y)) value++;
