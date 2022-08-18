@@ -1,327 +1,13 @@
-class Row {
-	constructor(rows){
-		this.rows = rows
-	}
-
-	getX(index){
-		return this.rows[index].X
-	}
-
-	getY(index){
-		return this.rows[index].Y
-	}
-    
-    getRows() {
-      return this.rows;
-    }
-}
-
-class RowCollection {
-  constructor(rows) {
-    this.rows = rows;
-  }
-  
-  size() {
-    return this.rows.getRows().length;
-  }
-
-  getRows() {
-    return this.rows.getRows();
-  }
-  
-  summationX() {
-    let sumX = 0;
-    this.rows.getRows().forEach((row)=> {
-      sumX = row.X + sumX;
-    })
-    return sumX;
-  }
-
-  summationY() {
-    let sumY = 0;
-    this.rows.getRows().forEach((row)=> {
-      sumY = row.Y + sumY;
-    })
-    return sumY;
-  }
-
-  summationXY() {
-    let sumXY = 0;
-    this.rows.getRows().forEach((row)=> {
-      sumXY += row.Y * row.X;
-    })
-    return sumXY;
-  }
-
-  summationSquareX() {
-    let sumXY = 0;
-    this.rows.getRows().forEach((row)=> {
-      sumXY += row.X * row.X;
-    })
-    return sumXY;
-  }
-
-  getColumnX(){
-    let array = []
-    this.rows.getRows().forEach((row) => {
-	  array.push(row.X);
-	})
-	return array
-  }
-
-  getColumnY(){
-    let array = []
-    this.rows.getRows().forEach((row) => {
-	  array.push(row.Y);
-	})
-	return array
-  }
-
-  averageX() {
-    let average = this.summationX() / this.size();
-    return average;
-  }
-
-  averageY() {
-    let average = this.summationY() / this.size();
-    return average;
-  }
-
-  getCovariance() {
-    let firstTerm = this.summationXY() / this.size();
-    let secondTerm = this.averageX() * this.averageY();
-    let covariance = firstTerm - secondTerm;
-    return covariance;
-  }
-
-  getSCR() {
-    let a = this.getA();
-    let b = this.getB();
-
-    let sumY = this.summationY();
-    let sumXY = this.summationXY();
-    let n = this.size();
-    let valueAverageY = this.averageY();
-    let scr = (a * sumY) + (b * sumXY) - (n * valueAverageY * valueAverageY);
-    return scr;
-  }
-
-  getSCE() {
-    let firstTerm = this.summationY() * this.summationY();
-    let secondTerm = this.getA() * this.summationY();
-    let thirdTerm = this.getB() * this.summationXY();
-    let sce = firstTerm - secondTerm - thirdTerm;
-    return sce;
-  }
-
-  getSCT() {
-    let valueAverageY = this.averageY();
-    let columnY = this.getColumnY();
-    let sum = 0;
-    columnY.forEach((Y) => {
-      let aux = Y - valueAverageY;
-      let aux2 = aux * aux;
-      sum += aux2;
-    })
-    return sum;
-  }
-
-  getCMR() {
-    let cmr = this.getSCT()/1;
-    return cmr;
-  }
-
-  getCME() {
-    let cme = this.getSCE() / (this.size() - 2);
-    return cme;
-  }
-
-  getF() {
-    let f = this.getCMR() / this.getCME();
-    return f;
-  }
-
-  getB(){
-	let numerator = this.summationXY() - (this.size() * this.averageX() * this.averageY());
-	let divisor = this.summationSquareX() - (this.size() * this.averageX() * this.averageX());
-	let b = numerator / divisor;
-	return b;
-  }
-
-  getA(){
-	let a = this.averageY() - (this.getB() * this.averageX());
-	return a;
-  }
-
-  getFunction(){
-  	let result = this.getA() + "+" +  (this.getB() + "x");
-	return result;
-  }
-  
-  getValuesFunction(){
-	let miArray = [];
-	let auxA = this.getA();
-	let auxB = this.getB();
-    this.rows.getRows().forEach((row) => {
-	    let termB = auxB * row.X;
-	    let complete = auxA + termB;
-		miArray.push(complete);
-	});
-	return miArray;
-  }
-}
-
-class Utilities {
-  static showTableAnova(idTable, dataExcel) {
-      let table = document.getElementById(idTable);
-      table.innerHTML = '';
-      let titleTable = document.createElement("h4");
-      titleTable.textContent = "Tabla Anova";
-      let tab = document.createElement("table");
-      let tr = document.createElement("tr");
-      let th = document.createElement("thead");
-      let tb = document.createElement("tbody");
-      th.appendChild(tr);
-      tab.appendChild(th);
-      tab.appendChild(tb);
-      table.appendChild(titleTable);
-      table.appendChild(tab);
-	  table.querySelector("thead>tr").innerHTML += `<th>Fuente</th>` 
-	  table.querySelector("thead>tr").innerHTML += `<th>SC</th>` 
-	  table.querySelector("thead>tr").innerHTML += `<th>GL</th>` 
-	  table.querySelector("thead>tr").innerHTML += `<th>CM</th>` 
-	  table.querySelector("thead>tr").innerHTML += `<th>Fc</th>` 
-      let scr = dataExcel.getSCR();
-      let sce = dataExcel.getSCE();
-      let sct = scr + sce;
-      let glr = 1;
-      let glt = dataExcel.size() - 1;
-      let gle = glt - glr;
-	    table.querySelector('tbody').innerHTML += `
-			<tr>
-				<td>Regr. Lineal</td>
-				<td>${dataExcel.getSCR()}</td>
-				<td>${glr}</td>
-				<td>${dataExcel.getCMR()}</td>
-				<td>${dataExcel.getF()}</td>
-			</tr>
-			<tr>
-				<td>Error</td>
-				<td>${dataExcel.getSCE()}</td>
-				<td>${gle}</td>
-				<td>${dataExcel.getCME()}</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>T</td>
-				<td>${sct}</td>
-				<td>${glt}</td>
-				<td>${sct/glt}</td>
-				<td></td>
-			</tr>
-			`
-  }
-  static showTable(idTable, dataExcel) {
-      let table = document.getElementById(idTable);
-      let titleTable = document.createElement("h4");
-      titleTable.textContent = "Tabla Ingresada";
-      let tab = document.createElement("table");
-      let tr = document.createElement("tr");
-      let th = document.createElement("thead");
-      let tb = document.createElement("tbody");
-      th.appendChild(tr);
-      tab.appendChild(th);
-      tab.appendChild(tb);
-      table.appendChild(titleTable);
-      table.appendChild(tab);
-	  table.querySelector("thead>tr").innerHTML += `<th>X</th>` 
-	  table.querySelector("thead>tr").innerHTML += `<th>Y</th>` 
-      dataExcel.getRows().forEach((row) => {
-	    table.querySelector('tbody').innerHTML += `
-			<tr>
-				<td>${row.X}</td>
-				<td>${row.Y}</td>
-			</tr>
-			`
-      });
-      let table2 = document.getElementById("table-content-data");
-	  var promeX = dataExcel.averageX()
-	  var promeY = dataExcel.averageY()
-	  var funcion = dataExcel.getFunction()
-      let titleTable2 = document.createElement("h4");
-      titleTable2.textContent = 'Datos obtenidos';
-      let tab2 = document.createElement("table");
-      let tr2 = document.createElement("tr");
-      let th2 = document.createElement("thead");
-      let tb2 = document.createElement("tbody");
-      th2.appendChild(tr2);
-      tab2.appendChild(th2);
-      tab2.appendChild(tb2);
-      table2.appendChild(titleTable2);
-      table2.appendChild(tab2);
-	  table2.querySelector('tbody').innerHTML +=`
-        <tr>
-          <th>promedio X</th>
-          <th>Promedio Y</th>
-          <th>funcion</th>
-        </tr>
-        <tr>
-          <td>${promeX}</td>
-          <td>${promeY}</td>
-          <td>${funcion}</td>
-        </tr>
-		 `;
-  }
-
-  static showGraph(columnX, columnY, columnFunction="") {
-      if (window.graph) {
-        window.graph.clear();
-        window.graph.destroy();
-      }
-      let context = document.getElementById('content');
-      document.getElementById("myGraph").style.opacity = 1;
-      let graph = document.getElementById("myGraph").getContext("2d")
-      let div = document.createElement("div");
-      div.setAttribute('class', 'input-colors');
-      let color = document.createElement("input");
-      let color2 = document.createElement("input");
-      color.setAttribute('type', 'color');
-      color.setAttribute('id', 'graphD');
-      color2.setAttribute('type', 'color');
-      color2.setAttribute('id', 'graphF');
-      console.log(color);
-      console.log(context);
-      div.appendChild(color);
-      div.appendChild(color2);
-      // context.appendChild(div);
-      let data = [];
-      if (columnFunction === "") data.push({
-            label: "grafico Dispersion",
-            data: columnY,
-			backgroundColor: "rgb(255,0,0)"
-      });
-      else {
-        data.push({
-            label: "grafico Dispersion",
-            data: columnY,
-			backgroundColor: "rgb(255,0,0)"
-          },{
-            type: "line",
-            label: "grafico Funcion",
-            data: columnFunction,
-			backgroundColor: "rgb(128,0,128)",
-            borderColor: "rgba(128, 0, 128, 0.4)"
-        });
-      }
-      window.graph = new Chart(graph, {
-        type: "scatter",
-        data: {
-          labels: columnX,
-          datasets: data
-        }
-      });
-  }
-}
+import { Row, RowCollection, Utilities } from './Model.js';
+import { 
+  selectEvent,
+  loadExcelEvent,
+  buttonParamEvent,
+  buttonResultEvent,
+  buttonStartEvent,
+  inputLenghtEvent,
+  mainEvent
+} from './Events.js';
 
 const createSelect = (valueSelect) => {
   let select = document.createElement("select");
@@ -342,45 +28,36 @@ const createSelect = (valueSelect) => {
   return select;
 }
 
-const init = (datatitle, valueSelect) => {
+const init = (datatitle, value) => {
   let content = document.getElementById("content");
   let title = document.createElement("h4");
   title.textContent = datatitle;
+  let valueSelect = (value !== undefined) ? "data"+value: "data";
   let select = createSelect(valueSelect);
   if (valueSelect === "dataExcel") {
     let firstNode = document.getElementById("input-excel");
     content.insertBefore(title, firstNode);
     content.insertBefore(select, firstNode);
-    document.querySelector("#input-excel").addEventListener('change', () =>{
-      inputExcel();
-    })
+    loadExcelEvent(inputExcel);
   } else if (valueSelect === "dataManual") {
     let firstNode = document.getElementById("table-content");
     content.insertBefore(title, firstNode);
     content.insertBefore(select, firstNode);
     addTable();
+    inputLenghtEvent();
   } else {
     content.appendChild(title);
     content.appendChild(select);
   }
-  selectEvents();
+  selectEvent();
+  buttonStartEvent();
   // let colorGraph = document.getElementById('graphD');
   // colorGraph.addEventListener("onclick", (e) => {
     // console.log(e.target.value);
     // content.insertBefore(colorGraph, graph);
   // })
-  // buttonStartEvents();
 }
 
-const selectEvents = () => {
-  let select = document.getElementById("data-input");
-  select.addEventListener("change", (e) => {
-    let valueSelect = e.target.value;
-    if (valueSelect === "dataExcel") location.href = "viewExcel.html";
-    if (valueSelect === "dataManual") location.href = "viewManual.html";
-    if (valueSelect === "data") location.replace(location.origin);
-  })
-}
 
 const addTable = () => {
   let content = document.getElementById("content");
@@ -391,18 +68,11 @@ const addTable = () => {
   rootBtn.setAttribute("class", "content-buttons");
   addTitles(root);
   root.appendChild(addRow());
-  root.appendChild(addRow());
   rootBtn.appendChild(addButton());
   content.insertBefore(root, table);
   content.insertBefore(rootBtn, table);
-  let btn = document.getElementsByClassName("addParam");
-  let input = document.getElementsByClassName("content-input");
-  btn[0].addEventListener("click", () => {
-    input[0].appendChild(addRow());
-  });
-  document.getElementsByClassName("showResult")[0].addEventListener("click", () => {
-    showResult();
-  });
+  buttonParamEvent(Utilities);
+  buttonResultEvent(showResult);
 }
 
 const addTitles = (root) => {
@@ -423,16 +93,24 @@ const addTitles = (root) => {
 const addRow = () => {
   let div = document.createElement("div");
   div.setAttribute("class", "content-input-number");
+  let divParam = document.createElement("div");
+  let divValue = document.createElement("div");
   let input1 = document.createElement("input");
-  input1.setAttribute("type", "number");
+  let span1 = document.createElement('span');
+  span1.setAttribute("id", "parameterError");
+  input1.setAttribute("type", "text");
   input1.setAttribute("class", "parametro");
-  input1.setAttribute("onkeypress", "if((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46) { return true } else { alert('digite un numero valido'); return false; }");
   let input2 = document.createElement("input");
-  input2.setAttribute("type", "number");
+  let span2 = document.createElement('span');
+  span2.setAttribute("id", "valueError");
+  input2.setAttribute("type", "text");
   input2.setAttribute("class", "valor");
-  input2.setAttribute("onkeypress", "if((event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46) { return true } else { alert('digite un numero valido'); return false; }");
-  div.appendChild(input1);
-  div.appendChild(input2);
+  divParam.appendChild(input1);
+  divParam.appendChild(span1);
+  divValue.appendChild(input2);
+  divValue.appendChild(span2);
+  div.appendChild(divParam);
+  div.appendChild(divValue);
   return div;
 }
 
@@ -442,7 +120,7 @@ const addButton = () => {
   let btn1 = document.createElement("button");
   btn1.setAttribute("class", "addParam");
   btn1.setAttribute("type", "button");
-  btn1.textContent = "Agregar mas parametros";
+  btn1.textContent = " + ";
   let btn2 = document.createElement("button");
   btn2.setAttribute("class", "showResult");
   btn2.setAttribute("type", "button");
@@ -456,31 +134,22 @@ const showResult = () => {
     document.getElementById("table-content").innerHTML = '';
     document.getElementById("table-content-data").innerHTML = '';
 	let table = []
-	for (var i = 0; i <= document.querySelectorAll(".parametro").length -1 ; i++) {
-        let parameter = document.querySelectorAll(".parametro")[i].value;
-        let value = document.querySelectorAll(".valor")[i].value;
-        let aux = parameter !== "" ? Number(parameter): -1;
-        let aux2 = value !== "" ? Number(value): -1;
-        table.push({"X": aux, "Y": aux2})
-	}
+    table = Utilities.dataInput;
     if(!verifiedOnlyNumber(table)) {
       alert("Alguno de los datos no es un numero valido");
-      location.href = "viewManual.html";
+      if(table.length > 0) Utilities.showTableInput();
       return;
     }
-    let arrayX = [];
-    table.forEach((row) => {
-      arrayX.push(row.X);
-    });
-    if(!verifiedDataRepeat(arrayX)) {
-      alert("Los datos en la variable X no pueden ser repetidos\nVuelva a intentarlo");
-      location.href = "viewManual.html";
+    if(table.length < 2) {
+      alert("Al menos debe ingresar dos filas para poder hacer el calculo");
+      if(table.length > 0) Utilities.showTableInput();
       return;
-    }
+    } 
+    // verifiedDataRepeat(table);
     let row = new Row(table);
     let dataExcel = new RowCollection(row);
     Utilities.showTableAnova("table-content-anova", dataExcel);
-    Utilities.showTable("table-content", dataExcel);
+    Utilities.showTableExcel("table-content", dataExcel);
     Utilities.showGraph(dataExcel.getColumnX(), dataExcel.getColumnY(), dataExcel.getValuesFunction());
 }
 
@@ -496,41 +165,43 @@ const inputExcel = () => {
       let workbook = XLSX.read(data, {type: 'array'});
       let worksheet = workbook.Sheets[workbook.SheetNames[0]];
       let arraySheet = XLSX.utils.sheet_to_row_object_array(worksheet);
-      if(arraySheet[0].X === undefined && arraySheet[0].Y === undefined ) {
+      if(arraySheet[0].X === undefined || arraySheet[0].Y === undefined ) {
         alert("No se puede calcular porque los encabezados debe ser tipo X y Y en mayusculas");
-        location.href = "viewExcel.html";
+        excel.value = "";
         return;
       }
-      console.log(arraySheet);
       if(!verifiedOnlyNumber(arraySheet)) {
         alert("Alguno de los datos no es un numero valido");
-        location.href = "viewExcel.html";
-        return;
-      }
-      let arrayX = [];
-      arraySheet.forEach((row) => {
-        arrayX.push(row.X);
-      });
-      if(!verifiedDataRepeat(arrayX)) {
-        alert("Los datos en la variable X no pueden ser repetidos\nVuelva a intentarlo");
-        location.href = "viewExcel.html";
+        excel.value = "";
         return;
       }
       let row = new Row(arraySheet);
       let dataExcel = new RowCollection(row);
       Utilities.showTableAnova("table-content-anova", dataExcel);
-      Utilities.showTable("table-content", dataExcel);
+      Utilities.showTableExcel("table-content", dataExcel);
       Utilities.showGraph(dataExcel.getColumnX(), dataExcel.getColumnY(), dataExcel.getValuesFunction());
     }
     reader.readAsArrayBuffer(file);
   } else {
     alert("Extensión no valida, solo se acepta archivos excel");
+    excel.value = "";
   }
 }
 
 const verifiedDataRepeat = (array) => {
-  let set = new Set(array);
-  return set.size === array.length;
+  const search = array.reduce((acc, element) => {
+    acc[element.X] += element.Y;
+    // return acc;
+  }, {});
+  console.log(search);
+
+
+  //TODO verificar numeros repetidos
+  // const sum = dup.reduce((acc, element) => {
+  //   console.log(acc, element);
+  //   acc[element] += element.X;
+  // })
+  // console.log(sum);
 }
 
 const verifiedOnlyNumber = (array) => {
@@ -539,18 +210,8 @@ const verifiedOnlyNumber = (array) => {
   array.forEach((row) => {
     if(reg.test(row.X) && reg.test(row.Y)) value++;
   })
-  console.log(value, array.length);
   return value === array.length;
 }
 
-const addTableAnova = (idTable) => {
-  let tableAnova = document.getElementById(idTable);
-  let tab = document.createElement("table");
-  let tr = document.createElement("tr");
-  let th = document.createElement("thead");
-  let tb = document.createElement("tbody");
-  th.appendChild(tr);
-  tab.appendChild(th);
-  tab.appendChild(tb);
-  tableAnova.appendChild(tab);
-}
+// Main program
+mainEvent(init);

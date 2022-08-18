@@ -5,8 +5,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Linear Regression</title>
 	<link rel="stylesheet" href="css/styles.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-	<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 	               <div class="container__item landing-page-container">
@@ -21,15 +19,12 @@
                             </div>
                             <div class="ellipse ellipse__outer--thick"></div>
                             <div class="btnStart">
-                                <button id="as" class="as" onclick="let content = document.getElementById('content'); content.classList.remove('hidden'); window.scrollTo(100, 100)" >Start</button>
+                                <button id="as" class="as" >Start</button>
                             </div>
                         </div>
                     </div>
                </div>
                <div id="content" class="content hidden"></div>
-	<script src="js/Main.js"></script>
-	<script>
-		init("Linear Regression", "");
-	</script>
+	<script type="module" src="js/Main.js"></script>
 </body>
 </html>

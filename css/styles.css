@@ -2,6 +2,7 @@
 
 * {
   font-family: 'Poppins', sans-serif;
+  font-size: 18px;
 }
 
 body {
@@ -23,10 +24,6 @@ body {
   text-align: center;
 }
 
-.hidden {
-  display: none;
-}
-
 .content-input {
   padding: 0 1% 1% 1%;
 }
@@ -37,28 +34,32 @@ body {
   flex-direction: row;
 }
 
-.content-input , .content-buttons, #data-input{
-  width: inherit;
-}
-
 .addParam, .showResult{
   cursor: pointer;
-  margin: 1.2%;
+  margin: 4%;
   background: linear-gradient(90deg, #03a9f4, #f441a5,#ffeb3b,#03a9f4);
   background-size: 400%;
   border: none;
   border-radius: 15px;
   width: 100%;
-  height: 5vh;
+  height: 8vh;
+  color: white;
 }
 
 .addParam:hover, .showResult:hover {
   animation: animate 8s linear infinite;
 }
 
+.disabled {
+  cursor: not-allowed;
+  background: rgb(229,229, 229);
+  color: #9d9d9d;
+  pointer-events: none;
+}
+
 #input-excel {
   cursor: pointer;
-  width: 27%;
+  width: 33%;
   appearance: none;
   border: 1px solid #ced4da;
   border-radius: 10px;
@@ -75,7 +76,7 @@ body {
 }
 
 #data-input {
-  width: 28%;
+  width: 34%;
   padding: 0.5%;
   text-align: center;
   margin: 0 0 1.2% 0;
@@ -100,9 +101,9 @@ select option {
   animation: animate 8s linear infinite;
 }
 
-.content-input input {
-  margin: 0.8% 0.4%;
-  padding: 0.8% 0;
+.content-input-number input {
+  margin: 2%;
+  padding: 1% 0;
   text-align: center;
   border-radius: 10px;
   outline: none;
@@ -110,26 +111,37 @@ select option {
 }
 
 .content-input-header{
-  width: inherit;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20%;
+  display: block;
   background-color: rgba(130, 154, 182, 0.6);
-  text-align: center;
   border-radius: 10px;
 }
 
 .content-input span {
-  padding: 2% 5%;
+  padding: 2% 24%;
+  text-align: center;
 }
 
-#myGraph{
-  opacity: 0;
+.content-input-number div {
+  display: block;
+  width: 50%;
+}
+
+.content-input-number span {
+  display: block;
+  padding: 0;
+  /* margin: 9%; */
+}
+
+.myGraph{
   display: flex;
   margin: 2% 30%;
   flex-direction: row;
   background-color: white;
   border-radius: 10px;
+}
+
+.hidden {
+  display: none;
 }
 
 table {
@@ -353,4 +365,15 @@ tr:hover {
     border-radius: 40px;
     filter: blur(20px);
 }
+/* Oculta flechas input numerico*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
