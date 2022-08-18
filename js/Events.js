@@ -76,11 +76,14 @@ const inputSize = (input, idSpanElement) => {
     input.style.outline = "solid rgba(136, 8, 8, 0.5)";
     span.textContent = "El numero maximo permitido de caracteres es 4";
   }else {
-    input.classList.remove('error-input')
     input.style.outline = "none";
     span.textContent = "";
   } 
   return value;
+}
+
+const popupEvent = (Popup)=> {
+  document.addEventListener('load', () => Popup.init());
 }
 
 const mainEvent = (methodInitial) => {
@@ -89,4 +92,4 @@ const mainEvent = (methodInitial) => {
   document.getElementsByTagName('body')[0].addEventListener('load', methodInitial(title, page));
 }
 
-export { selectEvent, loadExcelEvent, buttonParamEvent, buttonResultEvent, buttonStartEvent, inputLenghtEvent, mainEvent };
+export { selectEvent, loadExcelEvent, buttonParamEvent, buttonResultEvent, buttonStartEvent, inputLenghtEvent, popupEvent, mainEvent };

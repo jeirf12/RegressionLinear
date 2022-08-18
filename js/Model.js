@@ -378,4 +378,39 @@ class Utilities {
   }
 }
 
-export { Row, RowCollection, Utilities };
+class Popup {
+  init() {
+    this.hideTimeout = null;
+    this.parent = document.createElement("div");
+    this.parent.setAttribute("class", "popup");
+    this.child = document.createElement("div");
+    this.child.setAttribute("id", "myPopup");
+    this.child.setAttribute("class", "popup-content popup-invisible");
+    this.i = document.createElement("i");
+    this.p = document.createElement("p");
+    this.p.setAttribute("class", "popup-message");
+    this.child.appendChild(this.i);
+    this.child.appendChild(this.p);
+    this.parent.appendChild(this.child);
+    return this.parent;
+  }
+
+  show(state, message) {
+    clearTimeout(this.hideTimeout);
+    let element = document.getElementById("myPopup")
+    if(element === null) return;
+    element.classList.remove("popup-invisible");
+    if(state) {
+      element.getElementsByTagName("p")[0].textContent = message;
+      element.classList.add("popup-"+state);
+      console.log("entro show", element.getElementsByTagName("p")[0]);
+    } 
+    this.hideTimeout = setTimeout(()=> {
+      element.getElementsByTagName("p")[0].textContent = "";
+      element.classList.remove("popup-"+state);
+      element.classList.add("popup-invisible");
+    }, 5000);
+  }
+}
+
+export { Row, RowCollection, Utilities, Popup };

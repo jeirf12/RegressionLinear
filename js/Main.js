@@ -1,4 +1,4 @@
-import { Row, RowCollection, Utilities } from './Model.js';
+import { Row, RowCollection, Utilities, Popup } from './Model.js';
 import { 
   selectEvent,
   loadExcelEvent,
@@ -6,8 +6,11 @@ import {
   buttonResultEvent,
   buttonStartEvent,
   inputLenghtEvent,
+  popupEvent,
   mainEvent
 } from './Events.js';
+
+const popup = new Popup();
 
 const createSelect = (valueSelect) => {
   let select = document.createElement("select");
@@ -36,21 +39,25 @@ const init = (datatitle, value) => {
   let select = createSelect(valueSelect);
   if (valueSelect === "dataExcel") {
     let firstNode = document.getElementById("input-excel");
+    content.insertBefore(popup.init(), firstNode);
     content.insertBefore(title, firstNode);
     content.insertBefore(select, firstNode);
     loadExcelEvent(inputExcel);
   } else if (valueSelect === "dataManual") {
     let firstNode = document.getElementById("table-content");
+    content.insertBefore(popup.init(), firstNode);
     content.insertBefore(title, firstNode);
     content.insertBefore(select, firstNode);
     addTable();
     inputLenghtEvent();
   } else {
+    content.appendChild(popup.init());
     content.appendChild(title);
     content.appendChild(select);
   }
   selectEvent();
   buttonStartEvent();
+  popupEvent(popup);
   // let colorGraph = document.getElementById('graphD');
   // colorGraph.addEventListener("onclick", (e) => {
     // console.log(e.target.value);
@@ -136,12 +143,12 @@ const showResult = () => {
 	let table = []
     table = Utilities.dataInput;
     if(!verifiedOnlyNumber(table)) {
-      alert("Alguno de los datos no es un numero valido");
+      popup.show("error", "Alguno de los datos no es un numero valido");
       if(table.length > 0) Utilities.showTableInput();
       return;
     }
     if(table.length < 2) {
-      alert("Al menos debe ingresar dos filas para poder hacer el calculo");
+      popup.show("error", "Al menos debe ingresar dos filas para poder hacer el calculo");
       if(table.length > 0) Utilities.showTableInput();
       return;
     } 
@@ -165,12 +172,12 @@ const inputExcel = () => {
       let worksheet = workbook.Sheets[workbook.SheetNames[0]];
       let arraySheet = XLSX.utils.sheet_to_row_object_array(worksheet);
       if(arraySheet[0].X === undefined || arraySheet[0].Y === undefined ) {
-        alert("No se puede calcular porque los encabezados debe ser tipo X y Y en mayusculas");
+        popup.show("warning", "No se puede calcular porque los encabezados debe ser tipo X y Y en mayusculas");
         excel.value = "";
         return;
       }
       if(!verifiedOnlyNumber(arraySheet)) {
-        alert("Alguno de los datos no es un numero valido");
+        popup.show("error", "Alguno de los datos no es un numero valido");
         excel.value = "";
         return;
       }
@@ -182,7 +189,7 @@ const inputExcel = () => {
     }
     reader.readAsArrayBuffer(file);
   } else {
-    alert("Extensión no valida, solo se acepta archivos excel");
+    popup.show("error", "Extensión no valida, solo se acepta archivos excel");
     excel.value = "";
   }
 }
