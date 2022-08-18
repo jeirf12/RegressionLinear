@@ -56,29 +56,30 @@ const inputLenghtEvent = () => {
   let inputs = document.getElementsByTagName("input");
   inputs[0].addEventListener('input', () => {
     inputs[0].value = inputNumber(inputs[0].value);
-    inputs[0].value = inputSize(inputs[0].value, 'parameterError');
+    inputs[0].value = inputSize(inputs[0], 'parameterError');
   })
   inputs[1].addEventListener('input', () => {
     inputs[1].value = inputNumber(inputs[1].value);
-    inputs[1].value = inputSize(inputs[1].value, 'valueError');
+    inputs[1].value = inputSize(inputs[1], 'valueError');
   })
 }
 
 const inputNumber = (value) => {
-  // let reg = /^([0-9]+\.?[0-9]{0,2})$/
-  // if(value.length > 0 && !reg.test(value)) return String(Number.parseFloat(value).toFixed(2));
   return value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
-  // let reg = /^\d{1,2}\.,\d{1,2}+$/
-  // if(reg.test(value)) alert("valida");
-  // return value;
 }
 
-const inputSize = (value, idSpanElement) => {
+const inputSize = (input, idSpanElement) => {
   let span = document.getElementById(idSpanElement);
+  let value = input.value;
   if(value.length > 4) {
     value = value.slice(0, 4);
+    input.style.outline = "solid rgba(136, 8, 8, 0.5)";
     span.textContent = "El numero maximo permitido de caracteres es 4";
-  }else span.textContent = "";
+  }else {
+    input.classList.remove('error-input')
+    input.style.outline = "none";
+    span.textContent = "";
+  } 
   return value;
 }
 

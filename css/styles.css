@@ -24,14 +24,10 @@ body {
   text-align: center;
 }
 
-.content-input {
-  padding: 0 1% 1% 1%;
-}
-
 .content-input-number {
-  width: inherit;
   display: flex;
-  flex-direction: row;
+  text-align: center;
+  width: inherit;
 }
 
 .addParam, .showResult{
@@ -102,8 +98,6 @@ select option {
 }
 
 .content-input-number input {
-  margin: 2%;
-  padding: 1% 0;
   text-align: center;
   border-radius: 10px;
   outline: none;
@@ -111,25 +105,27 @@ select option {
 }
 
 .content-input-header{
-  display: block;
   background-color: rgba(130, 154, 182, 0.6);
   border-radius: 10px;
 }
 
 .content-input span {
-  padding: 2% 24%;
-  text-align: center;
-}
-
-.content-input-number div {
-  display: block;
+  display: inline-block;
   width: 50%;
 }
 
-.content-input-number span {
+.content-input-number input+span {
   display: block;
-  padding: 0;
-  /* margin: 9%; */
+  width: 200px;
+  min-width: 150px;
+}
+
+.content-input-number span  {
+  color: rgba(136, 8, 8, 0.9);
+}
+
+.content-input-number div {
+  padding: 4% 2% 2% 0;
 }
 
 .myGraph{

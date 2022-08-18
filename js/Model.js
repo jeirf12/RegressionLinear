@@ -345,8 +345,8 @@ class Utilities {
       color.setAttribute('id', 'graphD');
       color2.setAttribute('type', 'color');
       color2.setAttribute('id', 'graphF');
-      console.log(color);
-      console.log(context);
+      // console.log(color);
+      // console.log(context);
       div.appendChild(color);
       div.appendChild(color2);
       let data = [];

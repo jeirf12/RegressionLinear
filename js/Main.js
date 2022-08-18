@@ -145,7 +145,6 @@ const showResult = () => {
       if(table.length > 0) Utilities.showTableInput();
       return;
     } 
-    // verifiedDataRepeat(table);
     let row = new Row(table);
     let dataExcel = new RowCollection(row);
     Utilities.showTableAnova("table-content-anova", dataExcel);
@@ -193,7 +192,7 @@ const verifiedDataRepeat = (array) => {
     acc[element.X] += element.Y;
     // return acc;
   }, {});
-  console.log(search);
+  // console.log(search);
 
 
   //TODO verificar numeros repetidos
