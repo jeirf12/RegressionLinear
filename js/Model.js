@@ -403,10 +403,8 @@ class Popup {
     if(state) {
       element.getElementsByTagName("p")[0].textContent = message;
       element.classList.add("popup-"+state);
-      console.log("entro show", element.getElementsByTagName("p")[0]);
     } 
     this.hideTimeout = setTimeout(()=> {
-      element.getElementsByTagName("p")[0].textContent = "";
       element.classList.remove("popup-"+state);
       element.classList.add("popup-invisible");
     }, 5000);

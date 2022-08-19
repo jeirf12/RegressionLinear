@@ -14,7 +14,7 @@ const loadExcelEvent = (methodInput) => {
   })
 }
 
-const buttonParamEvent = (Utilities) => {
+const buttonParamEvent = (Utilities, popup) => {
   let btn = document.getElementsByClassName("addParam");
   let btn2 = document.getElementsByClassName("showResult");
   let inputs = document.getElementsByTagName("input");
@@ -24,6 +24,8 @@ const buttonParamEvent = (Utilities) => {
     if(inputX !== "" && inputY !== "") {
       let data = {"X": inputX, "Y": inputY};
       Utilities.showTable(data);
+    } else {
+      popup.show("warning", "Alguno de los campos no deben estar vacios");
     }
     inputs[0].value = "";
     inputs[1].value = "";
