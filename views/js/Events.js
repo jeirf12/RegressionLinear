@@ -8,8 +8,8 @@ const selectEvent = (props) => {
       props.popup.initWithButtons();
       resultado = props.popup.showWithButtons("success", "Desea salir de la pagina?", loadClickPopupEvent);
     }
-    if (valueSelect === "dataExcel" && resultado) location.href = "viewExcel.html";
-    if (valueSelect === "dataManual" && resultado) location.href = "viewManual.html";
+    if (valueSelect === "dataExcel" && resultado) location.href = location.origin+"/views/viewExcel.html";
+    if (valueSelect === "dataManual" && resultado) location.href = location.origin+"/views/viewManual.html";
     if (valueSelect === "data" && resultado) location.replace(location.origin);
   })
 }
