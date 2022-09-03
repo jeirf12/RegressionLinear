@@ -6,7 +6,6 @@ import {
   buttonResultEvent,
   buttonStartEvent,
   inputLenghtEvent,
-  popupEvent,
   mainEvent,
 } from "./Events.js";
 
@@ -36,6 +35,11 @@ const createSelect = (valueSelect) => {
   return select;
 };
 
+const props = {
+  Utilities: Utilities,
+  popup: popup,
+}
+
 const init = (datatitle, value) => {
   let content = document.getElementById("content");
   let title = document.createElement("h4");
@@ -60,9 +64,8 @@ const init = (datatitle, value) => {
     content.appendChild(title);
     content.appendChild(select);
   }
-  selectEvent();
+  selectEvent(props);
   buttonStartEvent();
-  popupEvent(popup);
   // let colorGraph = document.getElementById('graphD');
   // colorGraph.addEventListener("onclick", (e) => {
   // console.log(e.target.value);
@@ -205,6 +208,7 @@ const inputExcel = () => {
         dataExcel.getColumnY(),
         dataExcel.getValuesFunction()
       );
+      popup.show("success", "Calculos hechos correctamente!");
     };
     reader.readAsArrayBuffer(file);
   } else {

@@ -1,11 +1,37 @@
-const selectEvent = () => {
+const selectEvent = (props) => {
   let select = document.getElementById("data-input");
   select.addEventListener("change", (e) => {
     let valueSelect = e.target.value;
-    if (valueSelect === "dataExcel") location.href = "viewExcel.html";
-    if (valueSelect === "dataManual") location.href = "viewManual.html";
-    if (valueSelect === "data") location.replace(location.origin);
+    let resultado = true;
+    if(props.Utilities.dataInput.length > 0) {
+      console.log("entro popup new");
+      props.popup.initWithButtons();
+      resultado = props.popup.showWithButtons("success", "Desea salir de la pagina?", loadClickPopupEvent);
+    }
+    if (valueSelect === "dataExcel" && resultado) location.href = "viewExcel.html";
+    if (valueSelect === "dataManual" && resultado) location.href = "viewManual.html";
+    if (valueSelect === "data" && resultado) location.replace(location.origin);
   })
+}
+
+const loadClickEvent = (element, method) => {
+  element.addEventListener("click", () => method());
+}
+
+const loadClickPopupEvent = (props) => {
+  let btnCancel = document.getElementById("cancel");
+  let btnOk = document.getElementById("ok");
+  var resultado;
+  loadClickEvent(btnCancel, () => {
+    props.element.classList.toggle(`popup-${props.state}`);
+    props.element.classList.add("popup-invisible");
+    resultado = false;
+  });
+  loadClickEvent(btnOk, () => {
+    resultado = true;
+  })
+  console.log(resultado, "event click");
+  return resultado;
 }
 
 const loadExcelEvent = (methodInput) => {
@@ -24,11 +50,13 @@ const buttonParamEvent = (Utilities, popup) => {
     if(inputX !== "" && inputY !== "") {
       let data = {"X": inputX, "Y": inputY};
       Utilities.showTable(data);
+      inputs[0].value = "";
+      inputs[1].value = "";
     } else {
+      inputs[0].value = inputs[0].value !== "" ? inputs[0].value : "";
+      inputs[1].value = inputs[1].value !== "" ? inputs[1].value : "";
       popup.show("warning", "Alguno de los campos no deben estar vacios");
     }
-    inputs[0].value = "";
-    inputs[1].value = "";
     if(Utilities.dataInput.lenght > 1) btn2[0].classList.remove('disabled');
   });
 }
@@ -57,11 +85,21 @@ const buttonStartEvent = () => {
 const inputLenghtEvent = () => {
   let inputs = document.getElementsByTagName("input");
   inputs[0].addEventListener('input', () => {
-    inputs[0].value = inputNumber(inputs[0].value);
+    let value = inputNumber(inputs[0].value);
+    if(value === inputs[0].value) {
+      let span = document.getElementById("parameterError");
+      span.textContent = "El numero no es valido";
+    }
+    inputs[0].value = value;
     inputs[0].value = inputSize(inputs[0], 'parameterError');
   })
   inputs[1].addEventListener('input', () => {
-    inputs[1].value = inputNumber(inputs[1].value);
+    let value = inputNumber(inputs[1].value);
+    if(value === inputs[1].value) {
+      let span = document.getElementById("valueError");
+      span.textContent = "El numero no es valido";
+    }
+    inputs[1].value = value;
     inputs[1].value = inputSize(inputs[1], 'valueError');
   })
 }

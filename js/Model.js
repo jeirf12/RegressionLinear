@@ -380,6 +380,7 @@ class Utilities {
 
 class Popup {
   init() {
+    this.state = "";
     this.hideTimeout = null;
     this.parent = document.createElement("div");
     this.parent.setAttribute("class", "popup");
@@ -394,20 +395,56 @@ class Popup {
     this.parent.appendChild(this.child);
     return this.parent;
   }
+  
+  initWithButtons() {
+    let popup = document.getElementById("myPopup");
+    console.log(popup);
+    this.buttonCancel = document.createElement("button");
+    this.buttonCancel.setAttribute("id", "cancel");
+    this.buttonCancel.textContent = "Cancelar";
+    this.buttonOk = document.createElement("button");
+    this.buttonOk.setAttribute("id", "ok");
+    this.buttonOk.textContent = "Aceptar"
+    popup.appendChild(this.buttonCancel);
+    popup.appendChild(this.buttonOk);
+  }
 
-  show(state, message) {
+  show(stateProp, message) {
     clearTimeout(this.hideTimeout);
     let element = document.getElementById("myPopup")
     if(element === null) return;
     element.classList.remove("popup-invisible");
-    if(state) {
+    if(this.state !== "" && element.classList.contains(`popup-${this.state}`)) element.classList.remove(`popup-${this.state}`);
+    this.state = stateProp;
+    if(this.state) {
       element.getElementsByTagName("p")[0].textContent = message;
-      element.classList.add("popup-"+state);
+      element.classList.add(`popup-${this.state}`);
     } 
     this.hideTimeout = setTimeout(()=> {
-      element.classList.remove("popup-"+state);
+      element.classList.toggle(`popup-${this.state}`);
       element.classList.add("popup-invisible");
-    }, 5000);
+    }, 3000);
+  }
+
+  showWithButtons(stateProp, message, method) {
+    let btnCancel = document.getElementById("cancel");
+    let btnOk = document.getElementById("ok");
+    let element = document.getElementById("myPopup")
+    if(element === null || btnCancel === null || btnOk === null) return;
+    element.classList.remove("popup-invisible");
+    if(this.state !== "" && element.classList.contains(`popup-${this.state}`)) element.classList.remove(`popup-${this.state}`);
+    this.state = stateProp;
+    let props = {
+      element: element,
+      state: this.state,
+    }
+    let resultado = method(props);
+    if(this.state) {
+      element.getElementsByTagName("p")[0].textContent = message;
+      element.classList.add(`popup-${this.state}`);
+    } 
+
+    return resultado;
   }
 }
 
