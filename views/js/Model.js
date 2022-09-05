@@ -293,6 +293,7 @@ class Utilities {
 	  table.querySelector("thead>tr").innerHTML += `<th>X</th>` 
 	  table.querySelector("thead>tr").innerHTML += `<th>Y</th>` 
       this.dataInput.push(data);
+      this.dataInput = this.sumDataRepeat(this.dataInput);
       this.dataInput.forEach((row) => {
 	    table.querySelector('tbody').innerHTML += `
 			<tr>
@@ -375,6 +376,18 @@ class Utilities {
           datasets: data
         }
       });
+  }
+  static sumDataRepeat = (array) => {
+    let arrayResult = array.reduce((acc, number) => {
+      acc.filter((num) => number.X === num.X).reduce((acc, num) => {
+        number.Y += num.Y;
+        acc = number;
+      }, {})
+      let newAcc = acc.filter((num) => num.X !== number.X);
+      newAcc.push(number);
+      return newAcc;
+    }, [])
+    return arrayResult;
   }
 }
 

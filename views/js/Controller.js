@@ -57,7 +57,7 @@ const buttonParamEvent = (Utilities, popup) => {
     let inputX = inputs[0].value;
     let inputY = inputs[1].value;
     if (inputX !== "" && inputY !== "") {
-      let data = { X: inputX, Y: inputY };
+      let data = { X: Number(inputX), Y: Number(inputY) };
       Utilities.showTable(data);
       inputs[0].value = "";
       inputs[1].value = "";

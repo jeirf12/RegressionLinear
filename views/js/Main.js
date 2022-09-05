@@ -194,6 +194,7 @@ const inputExcel = () => {
         excel.value = "";
         return;
       }
+      arraySheet = Utilities.sumDataRepeat(arraySheet);
       if (!verifiedOnlyNumber(arraySheet)) {
         popup.show("error", "Alguno de los datos no es un numero valido");
         excel.value = "";
@@ -215,21 +216,6 @@ const inputExcel = () => {
     popup.show("error", "Extensión no valida, solo se acepta archivos excel");
     excel.value = "";
   }
-};
-
-const verifiedDataRepeat = (array) => {
-  const search = array.reduce((acc, element) => {
-    acc[element.X] += element.Y;
-    // return acc;
-  }, {});
-  // console.log(search);
-
-  //TODO verificar numeros repetidos
-  // const sum = dup.reduce((acc, element) => {
-  //   console.log(acc, element);
-  //   acc[element] += element.X;
-  // })
-  // console.log(sum);
 };
 
 const verifiedOnlyNumber = (array) => {
