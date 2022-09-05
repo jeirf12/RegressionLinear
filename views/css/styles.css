@@ -30,9 +30,11 @@ body {
 }
 
 .content-input-number {
-  display: flex;
-  text-align: center;
-  width: inherit;
+  display: grid;
+  grid-template-columns: 200px 200px;
+  grid-gap: 50px;
+  justify-content: center;
+  padding: 2%;
 }
 
 .addParam,
@@ -116,23 +118,21 @@ select option {
   border-radius: 10px;
 }
 
+.content-input {
+  width: 34%;
+}
+
 .content-input span {
   display: inline-block;
   width: 50%;
 }
 
-.content-input-number input + span {
-  display: block;
-  width: 200px;
-  min-width: 150px;
-}
-
-.content-input-number span {
+.content-input-number p {
   color: rgba(136, 8, 8, 0.9);
 }
 
-.content-input-number div {
-  padding: 4% 2% 2% 0;
+.content-input-number div, .content-input-number input {
+  width: 200px;
 }
 
 .myGraph {

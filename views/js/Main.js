@@ -7,7 +7,7 @@ import {
   buttonStartEvent,
   inputLenghtEvent,
   mainEvent,
-} from "./Events.js";
+} from "./Controller.js";
 
 const popup = new Popup();
 
@@ -40,11 +40,11 @@ const props = {
   popup: popup,
 }
 
-const init = (datatitle, value) => {
+const init = (propsInit) => {
   let content = document.getElementById("content");
   let title = document.createElement("h4");
-  title.textContent = datatitle;
-  let valueSelect = value !== undefined ? "data" + value : "data";
+  title.textContent = propsInit.datatitle;
+  let valueSelect = propsInit.value !== undefined ? "data" + propsInit.value : "data";
   let select = createSelect(valueSelect);
   if (valueSelect === "dataExcel") {
     let firstNode = document.getElementById("input-excel");
@@ -92,15 +92,15 @@ const addTable = () => {
 const addTitles = (root) => {
   let div = document.createElement("div");
   div.setAttribute("class", "content-input-header");
-  let cosa = document.createElement("span");
-  cosa.textContent = "Digite solo numeros";
-  let p1 = document.createElement("span");
-  p1.textContent = "X";
-  let p2 = document.createElement("span");
-  p2.textContent = "Y";
-  div.appendChild(p1);
-  div.appendChild(p2);
-  root.appendChild(cosa);
+  let subtitle = document.createElement("span");
+  subtitle.textContent = "Digite solo numeros";
+  let spanX = document.createElement("span");
+  spanX.textContent = "X";
+  let spanY = document.createElement("span");
+  spanY.textContent = "Y";
+  div.appendChild(spanX);
+  div.appendChild(spanY);
+  root.appendChild(subtitle);
   root.appendChild(div);
 };
 
@@ -110,19 +110,19 @@ const addRow = () => {
   let divParam = document.createElement("div");
   let divValue = document.createElement("div");
   let input1 = document.createElement("input");
-  let span1 = document.createElement("span");
-  span1.setAttribute("id", "parameterError");
+  let p1 = document.createElement("p");
+  p1.setAttribute("id", "parameterError");
   input1.setAttribute("type", "text");
   input1.setAttribute("class", "parametro");
   let input2 = document.createElement("input");
-  let span2 = document.createElement("span");
-  span2.setAttribute("id", "valueError");
+  let p2 = document.createElement("p");
+  p2.setAttribute("id", "valueError");
   input2.setAttribute("type", "text");
   input2.setAttribute("class", "valor");
   divParam.appendChild(input1);
-  divParam.appendChild(span1);
+  divParam.appendChild(p1);
   divValue.appendChild(input2);
-  divValue.appendChild(span2);
+  divValue.appendChild(p2);
   div.appendChild(divParam);
   div.appendChild(divValue);
   return div;
