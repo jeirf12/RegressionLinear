@@ -225,6 +225,7 @@ class Utilities {
   }
 
   static showTableExcel(idTable, dataExcel) {
+      this.dataInput = dataExcel.getRows();      // Esta linea verifica para salir de la vista con calculos en excel
       let table = document.getElementById(idTable);
       let titleTable = document.createElement("h4");
       titleTable.textContent = "Tabla Ingresada";
@@ -410,19 +411,33 @@ class Popup {
   }
   
   initWithButtons() {
-    let popup = document.getElementById("myPopup");
-    console.log(popup);
-    this.buttonCancel = document.createElement("button");
-    this.buttonCancel.setAttribute("id", "cancel");
-    this.buttonCancel.textContent = "Cancelar";
-    this.buttonOk = document.createElement("button");
-    this.buttonOk.setAttribute("id", "ok");
-    this.buttonOk.textContent = "Aceptar"
-    popup.appendChild(this.buttonCancel);
-    popup.appendChild(this.buttonOk);
+    let cancel = document.getElementById("cancel");
+    let ok = document.getElementById("ok");
+    if(cancel === null && ok === null) {
+      let popup = document.getElementById("myPopup");
+      this.buttonCancel = document.createElement("button");
+      this.buttonCancel.setAttribute("id", "cancel");
+      this.buttonCancel.textContent = "Cancelar";
+      this.buttonOk = document.createElement("button");
+      this.buttonOk.setAttribute("id", "ok");
+      this.buttonOk.textContent = "Aceptar"
+      popup.appendChild(this.buttonCancel);
+      popup.appendChild(this.buttonOk);
+    }
+  }
+
+  removeButtons() {
+    let cancel = document.getElementById("cancel");
+    let ok = document.getElementById("ok");
+    if(cancel !== null && ok !== null) {
+      let popup = document.getElementById("myPopup");
+      popup.removeChild(cancel);
+      popup.removeChild(ok);
+    }
   }
 
   show(stateProp, message) {
+    this.removeButtons();
     clearTimeout(this.hideTimeout);
     let element = document.getElementById("myPopup")
     if(element === null) return;
@@ -439,25 +454,25 @@ class Popup {
     }, 3000);
   }
 
-  showWithButtons(stateProp, message, method) {
+  showWithButtons(props) {
     let btnCancel = document.getElementById("cancel");
     let btnOk = document.getElementById("ok");
     let element = document.getElementById("myPopup")
     if(element === null || btnCancel === null || btnOk === null) return;
     element.classList.remove("popup-invisible");
     if(this.state !== "" && element.classList.contains(`popup-${this.state}`)) element.classList.remove(`popup-${this.state}`);
-    this.state = stateProp;
-    let props = {
+    this.state = props.stateProp;
+    let propsSend = {
       element: element,
       state: this.state,
+      valueSelect: props.valueSelect,
+      valueSelectPrev: props.valueSelectPrev
     }
-    let resultado = method(props);
+    props.method(propsSend);
     if(this.state) {
-      element.getElementsByTagName("p")[0].textContent = message;
+      element.getElementsByTagName("p")[0].textContent = props.message;
       element.classList.add(`popup-${this.state}`);
     } 
-
-    return resultado;
   }
 }
 
