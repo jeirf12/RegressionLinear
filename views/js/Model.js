@@ -227,10 +227,7 @@ class Utilities {
   }
 
   static showTableExcel(idTable, dataExcel) {
-<<<<<<< HEAD
-=======
     this.dataInput = dataExcel.getRows(); // Esta linea verifica para salir de la vista con calculos en excel
->>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
     let table = document.getElementById(idTable);
     let titleTable = document.createElement("h4");
     titleTable.textContent = "Tabla Ingresada";
@@ -246,11 +243,7 @@ class Utilities {
     table.querySelector("thead>tr").innerHTML += `<th>X</th>`;
     table.querySelector("thead>tr").innerHTML += `<th>Y</th>`;
     dataExcel.getRows().forEach((row) => {
-<<<<<<< HEAD
     table.querySelector("tbody").innerHTML += `
-=======
-      table.querySelector("tbody").innerHTML += `
->>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
 			<tr>
 				<td>${row.X}</td>
 				<td>${row.Y}</td>
@@ -305,11 +298,7 @@ class Utilities {
     this.dataInput.push(data);
     this.dataInput = this.sumDataRepeat(this.dataInput);
     this.dataInput.forEach((row) => {
-<<<<<<< HEAD
     table.querySelector("tbody").innerHTML += `
-=======
-      table.querySelector("tbody").innerHTML += `
->>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
 			<tr>
 				<td>${Number(row.X)}</td>
 				<td>${Number(row.Y)}</td>
@@ -364,10 +353,7 @@ class Utilities {
     // console.log(context);
     div.appendChild(color);
     div.appendChild(color2);
-<<<<<<< HEAD
     context.insertBefore(div, document.getElementById("myGraph"));
-=======
->>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
     let data = [];
     if (columnFunction === "")
       data.push({
