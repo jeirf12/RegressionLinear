@@ -8,42 +8,44 @@ import {
 const loadClickPopupEvent = (props) => {
   let btnCancel = document.getElementById("cancel");
   let btnOk = document.getElementById("ok");
-  var resultado;
   loadClickEvent(btnCancel, () => {
+    let select = document.getElementById("data-input");
+    select.value = props.valueSelectPrev;
     props.element.classList.toggle(`popup-${props.state}`);
     props.element.classList.add("popup-invisible");
-    resultado = false;
   });
   loadClickEvent(btnOk, () => {
-    resultado = true;
+    props.element.classList.add("popup-invisible");
+    selectLocation(props.valueSelect);
   });
-  return resultado;
 };
 
 const selectEvent = (props) => {
   let select = document.getElementById("data-input");
   props.select = select;
+  props.valueSelectPrev = select.value;
   loadChangeEvent(select, loadSelect, props);
 };
 
 const loadSelect = (props) => {
   let valueSelect = props.select.value;
-  let resultado = true;
   if (props.Utilities.dataInput.length > 0) {
-    console.log("entro popup new");
     props.popup.initWithButtons();
-    resultado = props.popup.showWithButtons(
-      "success",
-      "Desea salir de la pagina?",
-      loadClickPopupEvent
-    );
-  }
-  if (valueSelect === "dataExcel" && resultado)
-    location.href = location.origin + "/views/viewExcel.html";
-  if (valueSelect === "dataManual" && resultado)
-    location.href = location.origin + "/views/viewManual.html";
-  if (valueSelect === "data" && resultado) location.replace(location.origin);
+    props.popup.showWithButtons({
+      stateProp: "success",
+      message: "Desea salir de la pagina",
+      method: loadClickPopupEvent,
+      valueSelect: valueSelect,
+      valueSelectPrev: props.valueSelectPrev
+    });
+  } else selectLocation(valueSelect);
 };
+
+const selectLocation = (valueSelect) => {
+  if (valueSelect === "dataExcel") location.href = location.origin + "/views/viewExcel.html";
+  if (valueSelect === "dataManual") location.href = location.origin + "/views/viewManual.html";
+  if (valueSelect === "data") location.replace(location.origin);
+} 
 
 const loadExcelEvent = (methodInput) => {
   loadChangeEvent(document.querySelector("#input-excel"), methodInput);

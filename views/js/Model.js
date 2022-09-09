@@ -227,6 +227,10 @@ class Utilities {
   }
 
   static showTableExcel(idTable, dataExcel) {
+<<<<<<< HEAD
+=======
+    this.dataInput = dataExcel.getRows(); // Esta linea verifica para salir de la vista con calculos en excel
+>>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
     let table = document.getElementById(idTable);
     let titleTable = document.createElement("h4");
     titleTable.textContent = "Tabla Ingresada";
@@ -242,7 +246,11 @@ class Utilities {
     table.querySelector("thead>tr").innerHTML += `<th>X</th>`;
     table.querySelector("thead>tr").innerHTML += `<th>Y</th>`;
     dataExcel.getRows().forEach((row) => {
+<<<<<<< HEAD
     table.querySelector("tbody").innerHTML += `
+=======
+      table.querySelector("tbody").innerHTML += `
+>>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
 			<tr>
 				<td>${row.X}</td>
 				<td>${row.Y}</td>
@@ -297,7 +305,11 @@ class Utilities {
     this.dataInput.push(data);
     this.dataInput = this.sumDataRepeat(this.dataInput);
     this.dataInput.forEach((row) => {
+<<<<<<< HEAD
     table.querySelector("tbody").innerHTML += `
+=======
+      table.querySelector("tbody").innerHTML += `
+>>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
 			<tr>
 				<td>${Number(row.X)}</td>
 				<td>${Number(row.Y)}</td>
@@ -352,7 +364,10 @@ class Utilities {
     // console.log(context);
     div.appendChild(color);
     div.appendChild(color2);
+<<<<<<< HEAD
     context.insertBefore(div, document.getElementById("myGraph"));
+=======
+>>>>>>> 443061795dfb01a4e1c6ae98dd9ab245d60e94f8
     let data = [];
     if (columnFunction === "")
       data.push({
@@ -404,12 +419,18 @@ class Popup {
   init() {
     this.state = "";
     this.hideTimeout = null;
+    this.icons = {
+      success: "fa-circle-check",
+      warning: "fa-circle-exclamation",
+      error: "fa-circle-xmark",
+    };
     this.parent = document.createElement("div");
     this.parent.setAttribute("class", "popup");
     this.child = document.createElement("div");
     this.child.setAttribute("id", "myPopup");
     this.child.setAttribute("class", "popup-content popup-invisible");
     this.i = document.createElement("i");
+    this.i.setAttribute("class", "fa-solid");
     this.p = document.createElement("p");
     this.p.setAttribute("class", "popup-message");
     this.child.appendChild(this.i);
@@ -419,56 +440,88 @@ class Popup {
   }
 
   initWithButtons() {
-    let popup = document.getElementById("myPopup");
-    console.log(popup);
-    this.buttonCancel = document.createElement("button");
-    this.buttonCancel.setAttribute("id", "cancel");
-    this.buttonCancel.textContent = "Cancelar";
-    this.buttonOk = document.createElement("button");
-    this.buttonOk.setAttribute("id", "ok");
-    this.buttonOk.textContent = "Aceptar";
-    popup.appendChild(this.buttonCancel);
-    popup.appendChild(this.buttonOk);
+    let cancel = document.getElementById("cancel");
+    let ok = document.getElementById("ok");
+    if (cancel === null && ok === null) {
+      // let parent = document.getElementsByClassName("popup");
+      let popup = document.getElementById("myPopup");
+      this.divButtons = document.createElement("div");
+      this.divButtons.setAttribute("class", "popup-buttons");
+      this.buttonCancel = document.createElement("button");
+      this.buttonCancel.setAttribute("id", "cancel");
+      this.buttonCancel.textContent = "Cancelar";
+      this.buttonOk = document.createElement("button");
+      this.buttonOk.setAttribute("id", "ok");
+      this.buttonOk.textContent = "Aceptar";
+      this.divButtons.appendChild(this.buttonCancel);
+      this.divButtons.appendChild(this.buttonOk);
+      popup.appendChild(this.divButtons);
+    }
+  }
+
+  removeButtons() {
+    let cancel = document.getElementById("cancel");
+    let ok = document.getElementById("ok");
+    if (cancel !== null && ok !== null) {
+      let popup = document.getElementById("myPopup");
+      let divButtons = document.getElementsByClassName("popup-buttons");
+      popup.removeChild(divButtons[0]);
+    }
   }
 
   show(stateProp, message) {
+    this.removeButtons();
     clearTimeout(this.hideTimeout);
     let element = document.getElementById("myPopup");
     if (element === null) return;
     element.classList.remove("popup-invisible");
-    if (this.state !== "" && element.classList.contains(`popup-${this.state}`))
+    if (this.state !== "" && element.classList.contains(`popup-${this.state}`)) {
       element.classList.remove(`popup-${this.state}`);
+      element.classList.remove(`popup-${this.state}`);
+      element.getElementsByTagName("i")[0].classList.toggle(this.icons[this.state]);
+    }
     this.state = stateProp;
     if (this.state) {
       element.getElementsByTagName("p")[0].textContent = message;
+      element
+        .getElementsByTagName("i")[0]
+        .classList.add(this.icons[this.state]);
       element.classList.add(`popup-${this.state}`);
     }
     this.hideTimeout = setTimeout(() => {
       element.classList.toggle(`popup-${this.state}`);
+      element
+        .getElementsByTagName("i")[0]
+        .classList.toggle(this.icons[this.state]);
       element.classList.add("popup-invisible");
     }, 3000);
   }
 
-  showWithButtons(stateProp, message, method) {
+  showWithButtons(props) {
     let btnCancel = document.getElementById("cancel");
     let btnOk = document.getElementById("ok");
     let element = document.getElementById("myPopup");
     if (element === null || btnCancel === null || btnOk === null) return;
     element.classList.remove("popup-invisible");
-    if (this.state !== "" && element.classList.contains(`popup-${this.state}`))
+    if (this.state !== "" && element.classList.contains(`popup-${this.state}`)) {
+      element.getElementsByTagName("i")[0].classList.toggle(this.icons[this.state]);
       element.classList.remove(`popup-${this.state}`);
-    this.state = stateProp;
-    let props = {
+    }
+    this.state = props.stateProp;
+    let propsSend = {
       element: element,
       state: this.state,
+      valueSelect: props.valueSelect,
+      valueSelectPrev: props.valueSelectPrev,
     };
-    let resultado = method(props);
+    props.method(propsSend);
     if (this.state) {
-      element.getElementsByTagName("p")[0].textContent = message;
+      element.getElementsByTagName("p")[0].textContent = props.message;
+      element
+        .getElementsByTagName("i")[0]
+        .classList.add(this.icons[this.state]);
       element.classList.add(`popup-${this.state}`);
     }
-
-    return resultado;
   }
 }
 
