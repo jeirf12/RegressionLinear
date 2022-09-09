@@ -352,6 +352,7 @@ class Utilities {
     // console.log(context);
     div.appendChild(color);
     div.appendChild(color2);
+    context.insertBefore(div, document.getElementById("myGraph"));
     let data = [];
     if (columnFunction === "")
       data.push({

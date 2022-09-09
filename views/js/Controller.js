@@ -131,6 +131,17 @@ const inputSize = (input, idSpanElement) => {
   return value;
 };
 
+const changedColorEvent = () => {
+  let graphD = document.getElementById("graphD");
+  let graphF = document.getElementById("graphF");
+  loadClickEvent(graphD, changedColor);
+  loadClickEvent(graphF, changedColor);
+};
+
+const changedColor = () => {
+  
+};
+
 const mainEvent = (methodInitial) => {
   let title = document.title;
   let page = title.split(" ")[2];
@@ -144,5 +155,6 @@ export {
   buttonResultEvent,
   buttonStartEvent,
   inputLenghtEvent,
+  changedColorEvent,
   mainEvent,
 };

@@ -66,11 +66,6 @@ const init = (propsInit) => {
   }
   selectEvent(props);
   buttonStartEvent();
-  // let colorGraph = document.getElementById('graphD');
-  // colorGraph.addEventListener("onclick", (e) => {
-  // console.log(e.target.value);
-  // content.insertBefore(colorGraph, graph);
-  // })
 };
 
 const addTable = () => {
