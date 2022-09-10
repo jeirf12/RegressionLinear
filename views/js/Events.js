@@ -11,8 +11,8 @@ const loadKeyupEvent = (element, methodKeyup, parameter="") => {
   });
 };
 const loadChangeEvent = (element, methodChange, parameter="") => {
-  element.addEventListener("change", () => {
-    if(parameter !== "") methodChange(parameter);
+  element.addEventListener("change", (event) => {
+    if(parameter !== "") methodChange(parameter, event);
     else methodChange();
   });
 };

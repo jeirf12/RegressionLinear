@@ -133,15 +133,26 @@ const inputSize = (input, idSpanElement) => {
   return value;
 };
 
-const changedColorEvent = () => {
+const changedColorEvent = (props, utilities) => {
   let graphD = document.getElementById("graphD");
   let graphF = document.getElementById("graphF");
-  loadClickEvent(graphD, changedColor);
-  loadClickEvent(graphF, changedColor);
+  let result = utilities.convertHextoRGB(graphD.value);
+  let colorD = result.r + "," + result.g + "," + result.b;
+  let resultF = utilities.convertHextoRGB(graphF.value);
+  let colorF = resultF.r + "," + resultF.g + "," + resultF.b;
+  let propsEvent = { props, utilities, colorD, colorF }
+  loadChangeEvent(graphD, changedColor, propsEvent);
+  loadChangeEvent(graphF, changedColor, propsEvent);
 };
 
-const changedColor = () => {
-  
+const changedColor = (propsEvent, event) => {
+  console.log("propevent", propsEvent, event.target);
+  let result = propsEvent.utilities.convertHextoRGB(event.target.value);
+  result = result.r + "," + result.g + "," + result.b;
+  switch(event.target.id) {
+    case "graphD": propsEvent.utilities.showGraph(propsEvent.props, result, propsEvent.colorF);
+    case "graphF": propsEvent.utilities.showGraph(propsEvent.props, propsEvent.colorD, result);
+  }
 };
 
 const mainEvent = (methodInitial) => {

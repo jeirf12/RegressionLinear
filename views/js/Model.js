@@ -333,54 +333,60 @@ class Utilities {
     });
   }
 
-  static showGraph(columnX, columnY, columnFunction = "") {
+  static showGraph(props, colorD="255,0,0", colorF="128,0,128") {
     if (window.graph) {
       window.graph.clear();
       window.graph.destroy();
     }
-    let context = document.getElementById("content");
-    document.getElementById("myGraph").style.opacity = 1;
     let graph = document.getElementById("myGraph").getContext("2d");
-    let div = document.createElement("div");
-    div.setAttribute("class", "input-colors");
-    let color = document.createElement("input");
-    let color2 = document.createElement("input");
-    color.setAttribute("type", "color");
-    color.setAttribute("id", "graphD");
-    color2.setAttribute("type", "color");
-    color2.setAttribute("id", "graphF");
-    // console.log(color);
-    // console.log(context);
-    div.appendChild(color);
-    div.appendChild(color2);
-    context.insertBefore(div, document.getElementById("myGraph"));
+    document.getElementById("myGraph").style.opacity = 1;
+    let graphD = document.getElementById("graphD");
+    let graphF = document.getElementById("graphF")
+    if (graphD === null && graphF === null) {
+      let context = document.getElementById("content");
+      let div = document.createElement("div");
+      div.setAttribute("class", "input-colors");
+      let color = document.createElement("input");
+      let color2 = document.createElement("input");
+      color.setAttribute("type", "color");
+      color.setAttribute("id", "graphD");
+      color2.setAttribute("type", "color");
+      color2.setAttribute("id", "graphF");
+      colorD = colorD.split(",");
+      colorF = colorF.split(",");
+      color.value = this.convertRGBtoHex(Number(colorD[0]), Number(colorD[1]), Number(colorD[2]));
+      color2.value = this.convertRGBtoHex(Number(colorF[0]), Number(colorF[1]), Number(colorF[2])); 
+      div.appendChild(color);
+      div.appendChild(color2);
+      context.insertBefore(div, document.getElementById("myGraph"));
+    }
     let data = [];
-    if (columnFunction === "")
+    if (props.columnFunction === "")
       data.push({
         label: "grafico Dispersion",
-        data: columnY,
-        backgroundColor: "rgb(255,0,0)",
+        data: props.columnY,
+        backgroundColor: "rgb(" + colorD + ")",
       });
     else {
       data.push(
         {
           label: "grafico Dispersion",
-          data: columnY,
-          backgroundColor: "rgb(255,0,0)",
+          data: props.columnY,
+          backgroundColor: "rgb(" + colorD + ")",
         },
         {
           type: "line",
           label: "grafico Funcion",
-          data: columnFunction,
-          backgroundColor: "rgb(128,0,128)",
-          borderColor: "rgba(128, 0, 128, 0.4)",
+          data: props.columnFunction,
+          backgroundColor: "rgb(" + colorF + ")",
+          borderColor: "rgba(" + colorF + ", 0.4)",
         }
       );
     }
     window.graph = new Chart(graph, {
       type: "scatter",
       data: {
-        labels: columnX,
+        labels: props.columnX,
         datasets: data,
       },
     });
@@ -399,6 +405,17 @@ class Utilities {
     }, []);
     return arrayResult;
   };
+  static colorToHex = (color) => {
+    let hex = color.toString(16);
+    return hex.length === 1 ? "0" + hex: hex;
+  };
+  static convertRGBtoHex = (red, green, blue) => {
+    return "#" + this.colorToHex(red) + this.colorToHex(green) + this.colorToHex(blue);
+  };
+  static convertHextoRGB = (hex) => {
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
+  }
 }
 
 class Popup {

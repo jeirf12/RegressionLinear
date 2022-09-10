@@ -7,6 +7,7 @@ import {
   buttonStartEvent,
   inputLenghtEvent,
   mainEvent,
+  changedColorEvent,
 } from "./Controller.js";
 
 const popup = new Popup();
@@ -161,12 +162,14 @@ const showResult = () => {
   let dataExcel = new RowCollection(row);
   Utilities.showTableAnova("table-content-anova", dataExcel);
   Utilities.showTableExcel("table-content", dataExcel);
-  Utilities.showGraph(
-    dataExcel.getColumnX(),
-    dataExcel.getColumnY(),
-    dataExcel.getValuesFunction()
-  );
+  let propsChart = {
+    columnX: dataExcel.getColumnX(), 
+    columnY: dataExcel.getColumnY(), 
+    columnFunction: dataExcel.getValuesFunction()
+  };
+  Utilities.showGraph(propsChart);
   popup.show("success", "Calculos hechos correctamente!");
+  changedColorEvent(propsChart, Utilities);
 };
 
 const inputExcel = () => {
@@ -199,11 +202,12 @@ const inputExcel = () => {
       let dataExcel = new RowCollection(row);
       Utilities.showTableAnova("table-content-anova", dataExcel);
       Utilities.showTableExcel("table-content", dataExcel);
-      Utilities.showGraph(
-        dataExcel.getColumnX(),
-        dataExcel.getColumnY(),
-        dataExcel.getValuesFunction()
-      );
+      let propsChart = {
+        columnX: dataExcel.getColumnX(), 
+        columnY: dataExcel.getColumnY(), 
+        columnFunction: dataExcel.getValuesFunction()
+      };
+      Utilities.showGraph(propsChart);
       popup.show("success", "Calculos hechos correctamente!");
     };
     reader.readAsArrayBuffer(file);
