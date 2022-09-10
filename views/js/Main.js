@@ -209,6 +209,7 @@ const inputExcel = () => {
       };
       Utilities.showGraph(propsChart);
       popup.show("success", "Calculos hechos correctamente!");
+      changedColorEvent(propsChart, Utilities);
     };
     reader.readAsArrayBuffer(file);
   } else {

@@ -345,19 +345,34 @@ class Utilities {
     if (graphD === null && graphF === null) {
       let context = document.getElementById("content");
       let div = document.createElement("div");
+      let title = document.createElement("H3");
+      title.textContent = "Elija un color deseado para:";
+      let div1 = document.createElement("div");
+      div1.setAttribute("id", "contentD");
+      let span = document.createElement("span");
+      let span2 = document.createElement("span");
+      span.textContent = "Grafico Dispersion";
+      div1.appendChild(span);
+      let div2 = document.createElement("div");
+      div2.setAttribute("id", "contentF");
       div.setAttribute("class", "input-colors");
       let color = document.createElement("input");
       let color2 = document.createElement("input");
       color.setAttribute("type", "color");
       color.setAttribute("id", "graphD");
+      span2.textContent = "Grafico Funcion";
+      div2.appendChild(span2);
       color2.setAttribute("type", "color");
       color2.setAttribute("id", "graphF");
       colorD = colorD.split(",");
       colorF = colorF.split(",");
       color.value = this.convertRGBtoHex(Number(colorD[0]), Number(colorD[1]), Number(colorD[2]));
       color2.value = this.convertRGBtoHex(Number(colorF[0]), Number(colorF[1]), Number(colorF[2])); 
-      div.appendChild(color);
-      div.appendChild(color2);
+      div1.appendChild(color);
+      div2.appendChild(color2);
+      div.appendChild(title);
+      div.appendChild(div1);
+      div.appendChild(div2);
       context.insertBefore(div, document.getElementById("myGraph"));
     }
     let data = [];

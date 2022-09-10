@@ -146,12 +146,11 @@ const changedColorEvent = (props, utilities) => {
 };
 
 const changedColor = (propsEvent, event) => {
-  console.log("propevent", propsEvent, event.target);
   let result = propsEvent.utilities.convertHextoRGB(event.target.value);
   result = result.r + "," + result.g + "," + result.b;
   switch(event.target.id) {
-    case "graphD": propsEvent.utilities.showGraph(propsEvent.props, result, propsEvent.colorF);
-    case "graphF": propsEvent.utilities.showGraph(propsEvent.props, propsEvent.colorD, result);
+    case "graphD": propsEvent.utilities.showGraph(propsEvent.props, result, propsEvent.colorF);break;
+    case "graphF": propsEvent.utilities.showGraph(propsEvent.props, propsEvent.colorD, result);break;
   }
 };
 
