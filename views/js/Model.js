@@ -461,7 +461,6 @@ class Popup {
     let cancel = document.getElementById("cancel");
     let ok = document.getElementById("ok");
     if (cancel === null && ok === null) {
-      // let parent = document.getElementsByClassName("popup");
       let popup = document.getElementById("myPopup");
       this.divButtons = document.createElement("div");
       this.divButtons.setAttribute("class", "popup-buttons");
