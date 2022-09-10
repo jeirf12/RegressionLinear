@@ -443,10 +443,11 @@ class Popup {
       error: "fa-circle-xmark",
     };
     this.parent = document.createElement("div");
-    this.parent.setAttribute("class", "popup");
+    this.parent.setAttribute("class", "popup popup-invisible");
+    this.parent.setAttribute("id", "myPopup");
     this.child = document.createElement("div");
-    this.child.setAttribute("id", "myPopup");
-    this.child.setAttribute("class", "popup-content popup-invisible");
+    this.child.setAttribute("id", "myPopupContent");
+    this.child.setAttribute("class", "popup-content");
     this.i = document.createElement("i");
     this.i.setAttribute("class", "fa-solid");
     this.p = document.createElement("p");
@@ -461,7 +462,7 @@ class Popup {
     let cancel = document.getElementById("cancel");
     let ok = document.getElementById("ok");
     if (cancel === null && ok === null) {
-      let popup = document.getElementById("myPopup");
+      let popup = document.getElementById("myPopupContent");
       this.divButtons = document.createElement("div");
       this.divButtons.setAttribute("class", "popup-buttons");
       this.buttonCancel = document.createElement("button");
@@ -480,7 +481,7 @@ class Popup {
     let cancel = document.getElementById("cancel");
     let ok = document.getElementById("ok");
     if (cancel !== null && ok !== null) {
-      let popup = document.getElementById("myPopup");
+      let popup = document.getElementById("myPopupContent");
       let divButtons = document.getElementsByClassName("popup-buttons");
       popup.removeChild(divButtons[0]);
     }
@@ -490,24 +491,24 @@ class Popup {
     this.removeButtons();
     clearTimeout(this.hideTimeout);
     let element = document.getElementById("myPopup");
+    let content = document.getElementById("myPopupContent");
     if (element === null) return;
     element.classList.remove("popup-invisible");
-    if (this.state !== "" && element.classList.contains(`popup-${this.state}`)) {
-      element.classList.remove(`popup-${this.state}`);
-      element.classList.remove(`popup-${this.state}`);
-      element.getElementsByTagName("i")[0].classList.toggle(this.icons[this.state]);
+    if (this.state !== "" && content.classList.contains(`popup-${this.state}`)) {
+      content.classList.remove(`popup-${this.state}`);
+      content.getElementsByTagName("i")[0].classList.toggle(this.icons[this.state]);
     }
     this.state = stateProp;
     if (this.state) {
-      element.getElementsByTagName("p")[0].textContent = message;
-      element
+      content.getElementsByTagName("p")[0].textContent = message;
+      content
         .getElementsByTagName("i")[0]
         .classList.add(this.icons[this.state]);
-      element.classList.add(`popup-${this.state}`);
+      content.classList.add(`popup-${this.state}`);
     }
     this.hideTimeout = setTimeout(() => {
-      element.classList.toggle(`popup-${this.state}`);
-      element
+      content.classList.toggle(`popup-${this.state}`);
+      content
         .getElementsByTagName("i")[0]
         .classList.toggle(this.icons[this.state]);
       element.classList.add("popup-invisible");
@@ -518,11 +519,12 @@ class Popup {
     let btnCancel = document.getElementById("cancel");
     let btnOk = document.getElementById("ok");
     let element = document.getElementById("myPopup");
+    let content = document.getElementById("myPopupContent");
     if (element === null || btnCancel === null || btnOk === null) return;
     element.classList.remove("popup-invisible");
-    if (this.state !== "" && element.classList.contains(`popup-${this.state}`)) {
-      element.getElementsByTagName("i")[0].classList.toggle(this.icons[this.state]);
-      element.classList.remove(`popup-${this.state}`);
+    if (this.state !== "" && content.classList.contains(`popup-${this.state}`)) {
+      content.getElementsByTagName("i")[0].classList.toggle(this.icons[this.state]);
+      content.classList.remove(`popup-${this.state}`);
     }
     this.state = props.stateProp;
     let propsSend = {
@@ -533,11 +535,11 @@ class Popup {
     };
     props.method(propsSend);
     if (this.state) {
-      element.getElementsByTagName("p")[0].textContent = props.message;
-      element
+      content.getElementsByTagName("p")[0].textContent = props.message;
+      content
         .getElementsByTagName("i")[0]
         .classList.add(this.icons[this.state]);
-      element.classList.add(`popup-${this.state}`);
+      content.classList.add(`popup-${this.state}`);
     }
   }
 }
