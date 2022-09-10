@@ -11,7 +11,7 @@ const loadClickPopupEvent = (props) => {
   loadClickEvent(btnCancel, () => {
     let select = document.getElementById("data-input");
     select.value = props.valueSelectPrev;
-    props.element.classList.toggle(`popup-${props.state}`);
+    props.content.classList.toggle(`popup-${props.state}`);
     props.element.classList.add("popup-invisible");
   });
   loadClickEvent(btnOk, () => {

@@ -501,16 +501,12 @@ class Popup {
     this.state = stateProp;
     if (this.state) {
       content.getElementsByTagName("p")[0].textContent = message;
-      content
-        .getElementsByTagName("i")[0]
-        .classList.add(this.icons[this.state]);
+      content.getElementsByTagName("i")[0].classList.add(this.icons[this.state]);
       content.classList.add(`popup-${this.state}`);
     }
     this.hideTimeout = setTimeout(() => {
       content.classList.toggle(`popup-${this.state}`);
-      content
-        .getElementsByTagName("i")[0]
-        .classList.toggle(this.icons[this.state]);
+      content.getElementsByTagName("i")[0].classList.toggle(this.icons[this.state]);
       element.classList.add("popup-invisible");
     }, 3000);
   }
@@ -529,6 +525,7 @@ class Popup {
     this.state = props.stateProp;
     let propsSend = {
       element: element,
+      content: content,
       state: this.state,
       valueSelect: props.valueSelect,
       valueSelectPrev: props.valueSelectPrev,
@@ -536,9 +533,7 @@ class Popup {
     props.method(propsSend);
     if (this.state) {
       content.getElementsByTagName("p")[0].textContent = props.message;
-      content
-        .getElementsByTagName("i")[0]
-        .classList.add(this.icons[this.state]);
+      content.getElementsByTagName("i")[0].classList.add(this.icons[this.state]);
       content.classList.add(`popup-${this.state}`);
     }
   }
