@@ -23,8 +23,8 @@ const loadClickEvent = (element, methodClick, parameter="") => {
   });
 };
 const loadInputEvent = (element, methodInput, parameter="") => {
-  element.addEventListener("input", () => {
-    if(parameter !== "") methodInput(parameter);
+  element.addEventListener("input", (event) => {
+    if(parameter !== "") methodInput(parameter, event);
     else methodInput();
   });
 };

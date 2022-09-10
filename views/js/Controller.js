@@ -141,8 +141,8 @@ const changedColorEvent = (props, utilities) => {
   let resultF = utilities.convertHextoRGB(graphF.value);
   let colorF = resultF.r + "," + resultF.g + "," + resultF.b;
   let propsEvent = { props, utilities, colorD, colorF }
-  loadChangeEvent(graphD, changedColor, propsEvent);
-  loadChangeEvent(graphF, changedColor, propsEvent);
+  loadInputEvent(graphD, changedColor, propsEvent);
+  loadInputEvent(graphF, changedColor, propsEvent);
 };
 
 const changedColor = (propsEvent, event) => {
