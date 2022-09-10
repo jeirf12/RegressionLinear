@@ -448,10 +448,14 @@ class Popup {
     this.child = document.createElement("div");
     this.child.setAttribute("id", "myPopupContent");
     this.child.setAttribute("class", "popup-content");
+    this.span = document.createElement("span");
+    this.span.setAttribute("class", "popup-close");
+    this.span.innerHTML = "&times;";
     this.i = document.createElement("i");
     this.i.setAttribute("class", "fa-solid");
     this.p = document.createElement("p");
     this.p.setAttribute("class", "popup-message");
+    this.child.appendChild(this.span);
     this.child.appendChild(this.i);
     this.child.appendChild(this.p);
     this.parent.appendChild(this.child);

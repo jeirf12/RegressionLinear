@@ -5,6 +5,16 @@ import {
   loadEvent
 } from "./Events.js";
 
+const loadClosePopupEvent = (value) => {
+  let element = document.getElementById("myPopup");
+  let btnClose = document.getElementsByClassName("popup-close")[0];
+  loadClickEvent(btnClose, ()=> {
+    let select = document.getElementById("data-input");
+    select.value = value;
+    element.classList.add("popup-invisible");
+  });
+}
+
 const loadClickPopupEvent = (props) => {
   let btnCancel = document.getElementById("cancel");
   let btnOk = document.getElementById("ok");
@@ -163,6 +173,7 @@ const mainEvent = (methodInitial) => {
 };
 
 export {
+  loadClosePopupEvent,
   selectEvent,
   loadExcelEvent,
   buttonParamEvent,

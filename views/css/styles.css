@@ -465,6 +465,20 @@ input[type="number"] {
 .popup-buttons button:hover {
   animation: animate 8s linear infinite;
 }
+
+.popup-close {
+  color: #fff;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.popup-close:hover, .popup-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @keyframes slideout {
   from {
     transform: translateY(100px);

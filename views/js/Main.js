@@ -1,5 +1,6 @@
 import { Row, RowCollection, Utilities, Popup } from "./Model.js";
 import {
+  loadClosePopupEvent,
   selectEvent,
   loadExcelEvent,
   buttonParamEvent,
@@ -65,6 +66,7 @@ const init = (propsInit) => {
     content.appendChild(title);
     content.appendChild(select);
   }
+  loadClosePopupEvent(select.value);
   selectEvent(props);
   buttonStartEvent();
 };
@@ -216,6 +218,7 @@ const inputExcel = () => {
   } else {
     popup.show("error", "Extensión no valida, solo se acepta archivos excel");
     document.getElementById("info-excel").textContent = "Seleccione un archivo";
+    excel.value = "";
   }
 };
 
