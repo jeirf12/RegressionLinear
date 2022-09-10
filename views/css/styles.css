@@ -143,6 +143,12 @@ select option {
   border-radius: 10px;
 }
 
+#contentD, #contentF {
+  display: flex;
+  justify-content: space-between;
+  flex: 1 1 auto;
+}
+
 .hidden {
   display: none;
 }
