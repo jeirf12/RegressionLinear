@@ -69,10 +69,18 @@ const buttonParamEvent = (Utilities, popup) => {
     let inputX = inputs[0].value;
     let inputY = inputs[1].value;
     if (inputX !== "" && inputY !== "") {
-      let data = { X: Number(inputX), Y: Number(inputY) };
-      Utilities.showTable(data);
-      inputs[0].value = "";
-      inputs[1].value = "";
+      let numX = Number(inputX);
+      let numY = Number(inputY);
+      if (isNaN(numX) || isNaN(numY)) {
+        popup.show("error", "Alguno de los campos no es numerico");
+      }else if (inputX.replace(/\D+/g, "").length <= 5 && inputY.replace(/\D+/g, "").length <= 5){
+        let data = { X: numX, Y: numY };
+        Utilities.showTable(data);
+        inputs[0].value = "";
+        inputs[1].value = "";
+      } else {
+        popup.show("warning", "el campo solo recibe hasta 5 caracteres");
+      }
     } else {
       inputs[0].value = inputs[0].value !== "" ? inputs[0].value : "";
       inputs[1].value = inputs[1].value !== "" ? inputs[1].value : "";
@@ -83,8 +91,8 @@ const buttonParamEvent = (Utilities, popup) => {
 };
 
 const buttonResultEvent = (methodResult) => {
-  let btn2 = document.getElementsByClassName("showResult");
-  loadClickEvent(btn2[0], methodResult);
+  let btn2 = document.getElementsByClassName("showResult")[0];
+  loadClickEvent(btn2, methodResult);
 };
 
 const buttonStartEvent = () => {
@@ -108,41 +116,29 @@ const toggleButton = () => {
 const inputLenghtEvent = () => {
   let inputs = document.getElementsByTagName("input");
   loadInputEvent(inputs[0], () => {
-    let value = inputNumber(inputs[0].value);
-    if (value === inputs[0].value) {
-      let span = document.getElementById("parameterError");
-      span.textContent = "El numero no es valido";
-    }
+    let value = inputNumber(inputs[0], "parameterError");
     inputs[0].value = value;
-    inputs[0].value = inputSize(inputs[0], "parameterError");
   });
   loadInputEvent(inputs[1], () => {
-    let value = inputNumber(inputs[1].value);
-    if (value === inputs[1].value) {
-      let span = document.getElementById("valueError");
-      span.textContent = "El numero no es valido";
-    }
+    let value = inputNumber(inputs[1], "valueError");
     inputs[1].value = value;
-    inputs[1].value = inputSize(inputs[1], "valueError");
   });
 };
 
-const inputNumber = (value) => {
-  return value.replace(/[^0-9,.]/g, "").replace(/,/g, ".");
-};
-
-const inputSize = (input, idSpanElement) => {
-  let span = document.getElementById(idSpanElement);
-  let value = input.value;
-  if (value.length > 4) {
-    value = value.slice(0, 4);
-    input.style.outline = "solid rgba(136, 8, 8, 0.5)";
-    span.textContent = "El numero maximo permitido de caracteres es 4";
-  } else {
+const inputNumber = (input, idspan) => {
+  let reg = /^[0-9,.]+$/;
+  let span = document.getElementById(idspan);
+  let value = input.value
+  if(reg.test(value) && value.replace(/\D+/g, "").length <= 5) {
     input.style.outline = "none";
     span.textContent = "";
+    return value.replace(/,/g, ".");
+  } 
+  else {
+    input.style.outline = "solid rgba(136, 8, 8, 0.5)";
+    span.textContent = "El número no es válido";
+    return value.replace(/,/g, ".");
   }
-  return value;
 };
 
 const changedColorEvent = (props, utilities) => {
