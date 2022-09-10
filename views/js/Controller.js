@@ -86,6 +86,8 @@ const buttonStartEvent = () => {
 
 const toggleButton = () => {
   let content = document.getElementById("content");
+  let btn = document.getElementById("as");
+  btn.textContent = btn.textContent === "CLOSE"? "START": "CLOSE";
   content.classList.toggle("hidden");
   window.scrollTo({
     top: 150,
