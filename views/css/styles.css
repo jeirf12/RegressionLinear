@@ -62,11 +62,10 @@ body {
   pointer-events: none;
 }
 
-#input-excel {
+.upload-icon {
   cursor: pointer;
   width: 33%;
   appearance: none;
-  border: 1px solid #ced4da;
   border-radius: 10px;
   margin: 0;
   font-weight: 400;
@@ -76,8 +75,18 @@ body {
   color: #fff;
 }
 
-#input-excel:hover {
+.upload-icon:hover {
   animation: animate 8s linear infinite;
+}
+
+.upload-icon p {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+#input-excel {
+  display: none;
 }
 
 #data-input {
@@ -85,6 +94,7 @@ body {
   padding: 0.5%;
   text-align: center;
   margin: 0 0 1.2% 0;
+  border: none;
   border-radius: 10px;
   background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
   background-size: 400%;

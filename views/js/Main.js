@@ -173,10 +173,11 @@ const showResult = () => {
 };
 
 const inputExcel = () => {
-  document.getElementById("table-content").innerHTML = "";
   const excel = document.querySelector("#input-excel");
+  document.getElementById("info-excel").textContent = excel.files[0].name;
   let allowedExtensions = /(.xlsx|.xls)$/i;
   if (allowedExtensions.exec(excel.value)) {
+    document.getElementById("table-content").innerHTML = "";
     let reader = new FileReader();
     let file = excel.files[0];
     reader.onload = (event) => {
@@ -214,7 +215,7 @@ const inputExcel = () => {
     reader.readAsArrayBuffer(file);
   } else {
     popup.show("error", "Extensión no valida, solo se acepta archivos excel");
-    excel.value = "";
+    document.getElementById("info-excel").textContent = "Seleccione un archivo";
   }
 };
 
