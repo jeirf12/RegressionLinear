@@ -142,23 +142,23 @@ const inputNumber = (input, idspan) => {
 };
 
 const changedColorEvent = (props, utilities) => {
-  let graphD = document.getElementById("graphD");
-  let graphF = document.getElementById("graphF");
-  let result = utilities.convertHextoRGB(graphD.value);
-  let colorD = result.r + "," + result.g + "," + result.b;
-  let resultF = utilities.convertHextoRGB(graphF.value);
-  let colorF = resultF.r + "," + resultF.g + "," + resultF.b;
-  let propsEvent = { props, utilities, colorD, colorF }
+  let propsEvent = { props, utilities}
   loadInputEvent(graphD, changedColor, propsEvent);
   loadInputEvent(graphF, changedColor, propsEvent);
 };
 
 const changedColor = (propsEvent, event) => {
   let result = propsEvent.utilities.convertHextoRGB(event.target.value);
+  let graphD = document.getElementById("graphD");
+  let graphF = document.getElementById("graphF");
+  let resultD = propsEvent.utilities.convertHextoRGB(graphD.value);
+  let colorD = resultD.r + "," + resultD.g + "," + resultD.b;
+  let resultF = propsEvent.utilities.convertHextoRGB(graphF.value);
+  let colorF = resultF.r + "," + resultF.g + "," + resultF.b;
   result = result.r + "," + result.g + "," + result.b;
   switch(event.target.id) {
-    case "graphD": propsEvent.utilities.showGraph(propsEvent.props, result, propsEvent.colorF);break;
-    case "graphF": propsEvent.utilities.showGraph(propsEvent.props, propsEvent.colorD, result);break;
+    case "graphD": propsEvent.utilities.showGraph(propsEvent.props, result, colorF);break;
+    case "graphF": propsEvent.utilities.showGraph(propsEvent.props, colorD, result);break;
   }
 };
 
