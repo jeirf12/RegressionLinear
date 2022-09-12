@@ -255,7 +255,7 @@ class Utilities {
     var promeY = dataExcel.averageY();
     var funcion = dataExcel.getFunction();
     let titleTable2 = document.createElement("h4");
-    titleTable2.textContent = "Datos obtenidos";
+    titleTable2.textContent = "Datos Obtenidos";
     let tab2 = document.createElement("table");
     let tr2 = document.createElement("tr");
     let th2 = document.createElement("thead");
@@ -351,7 +351,7 @@ class Utilities {
       div1.setAttribute("id", "contentD");
       let span = document.createElement("span");
       let span2 = document.createElement("span");
-      span.textContent = "Grafico Dispersion";
+      span.textContent = "Gráfico Dispersión";
       div1.appendChild(span);
       let div2 = document.createElement("div");
       div2.setAttribute("id", "contentF");
@@ -360,7 +360,7 @@ class Utilities {
       let color2 = document.createElement("input");
       color.setAttribute("type", "color");
       color.setAttribute("id", "graphD");
-      span2.textContent = "Grafico Funcion";
+      span2.textContent = "Gráfico Función";
       div2.appendChild(span2);
       color2.setAttribute("type", "color");
       color2.setAttribute("id", "graphF");
@@ -378,20 +378,20 @@ class Utilities {
     let data = [];
     if (props.columnFunction === "")
       data.push({
-        label: "grafico Dispersion",
+        label: "Gráfico Dispersión",
         data: props.columnY,
         backgroundColor: "rgb(" + colorD + ")",
       });
     else {
       data.push(
         {
-          label: "grafico Dispersion",
+          label: "Gráfico Dispersión",
           data: props.columnY,
           backgroundColor: "rgb(" + colorD + ")",
         },
         {
           type: "line",
-          label: "grafico Funcion",
+          label: "Gráfico Función",
           data: props.columnFunction,
           backgroundColor: "rgb(" + colorF + ")",
           borderColor: "rgba(" + colorF + ", 0.4)",

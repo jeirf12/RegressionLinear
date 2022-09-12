@@ -91,7 +91,7 @@ const addTitles = (root) => {
   let div = document.createElement("div");
   div.setAttribute("class", "content-input-header");
   let subtitle = document.createElement("span");
-  subtitle.textContent = "Digite solo numeros";
+  subtitle.textContent = "Digite solo números";
   let spanX = document.createElement("span");
   spanX.textContent = "X";
   let spanY = document.createElement("span");
@@ -148,14 +148,14 @@ const showResult = () => {
   let table = [];
   table = Utilities.dataInput;
   if (!verifiedOnlyNumber(table)) {
-    popup.show("error", "Alguno de los datos no es un numero valido");
+    popup.show("error", "Alguno de los datos no es un número válido");
     if (table.length > 0) Utilities.showTableInput();
     return;
   }
   if (table.length < 2) {
     popup.show(
       "error",
-      "Al menos debe ingresar dos filas para poder hacer el calculo"
+      "Al menos debe ingresar dos filas para poder hacer el cálculo"
     );
     if (table.length > 0) Utilities.showTableInput();
     return;
@@ -170,7 +170,7 @@ const showResult = () => {
     columnFunction: dataExcel.getValuesFunction()
   };
   Utilities.showGraph(propsChart);
-  popup.show("success", "Calculos hechos correctamente!");
+  popup.show("success", "Cálculos hechos correctamente!");
   changedColorEvent(propsChart, Utilities);
 };
 
@@ -197,7 +197,7 @@ const inputExcel = () => {
       }
       arraySheet = Utilities.sumDataRepeat(arraySheet);
       if (!verifiedOnlyNumber(arraySheet)) {
-        popup.show("error", "Alguno de los datos no es un numero valido");
+        popup.show("error", "Alguno de los datos no es un número válido");
         excel.value = "";
         return;
       }
@@ -211,13 +211,13 @@ const inputExcel = () => {
         columnFunction: dataExcel.getValuesFunction()
       };
       Utilities.showGraph(propsChart);
-      popup.show("success", "Calculos hechos correctamente!");
+      popup.show("success", "Cálculos hechos correctamente!");
       changedColorEvent(propsChart, Utilities);
     };
     reader.readAsArrayBuffer(file);
   } else {
-    popup.show("error", "Extensión no valida, solo se acepta archivos excel");
-    document.getElementById("info-excel").textContent = "Seleccione un archivo";
+    popup.show("error", "Extensión no válida, solo se acepta archivos excel");
+    document.getElementById("info-excel").textContent = "Seleccioné un archivo";
     excel.value = "";
   }
 };

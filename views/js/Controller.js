@@ -43,7 +43,7 @@ const loadSelect = (props) => {
     props.popup.initWithButtons();
     props.popup.showWithButtons({
       stateProp: "success",
-      message: "Desea salir de la pagina",
+      message: "¿Desea salir de la página?",
       method: loadClickPopupEvent,
       valueSelect: valueSelect,
       valueSelectPrev: props.valueSelectPrev
@@ -72,7 +72,7 @@ const buttonParamEvent = (Utilities, popup) => {
       let numX = Number(inputX);
       let numY = Number(inputY);
       if (isNaN(numX) || isNaN(numY)) {
-        popup.show("error", "Alguno de los campos no es numerico");
+        popup.show("error", "Alguno de los campos no es numérico");
       }else if (inputX.replace(/\D+/g, "").length <= 5 && inputY.replace(/\D+/g, "").length <= 5){
         let data = { X: numX, Y: numY };
         Utilities.showTable(data);
@@ -84,7 +84,7 @@ const buttonParamEvent = (Utilities, popup) => {
     } else {
       inputs[0].value = inputs[0].value !== "" ? inputs[0].value : "";
       inputs[1].value = inputs[1].value !== "" ? inputs[1].value : "";
-      popup.show("warning", "Alguno de los campos no deben estar vacios");
+      popup.show("warning", "Alguno de los campos no deben estar vacíos");
     }
     if (Utilities.dataInput.lenght > 1) btn2[0].classList.remove("disabled");
   });
