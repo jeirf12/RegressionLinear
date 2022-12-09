@@ -1,5 +1,5 @@
 # Stadistics Project - Regression Linear
-**See our project deploy [here](https://regression-linear.herokuapp.com/)**
+**See our project deploy [here](https://jeirf12.github.io/RegressionLinear/)**
 ## :wrench: Instructions Execution Local
 **First of all open a command terminal (CLI):**
 > Then clone the repository with the following command
