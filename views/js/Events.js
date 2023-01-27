@@ -1,39 +1,23 @@
 const loadBlurEvent = (element, methodBlur, parameter="") => {
-  element.addEventListener("blur", ()=> {
-    if(parameter !== "") methodBlur(parameter);
-    else methodBlur();
-  });
+  element.addEventListener("blur", parameter !== "" ? () => methodBlur(parameter) : methodBlur);
 };
 const loadKeyupEvent = (element, methodKeyup, parameter="") => {
-  element.addEventListener("keyup", () => {
-    if(parameter !== "") methodKeyup(parameter);
-    else methodKeyup();
-  });
+  element.addEventListener("keyup", parameter !== "" ? () => methodKeyup(parameter) : methodKeyup);
 };
 const loadChangeEvent = (element, methodChange, parameter="") => {
-  element.addEventListener("change", (event) => {
-    if(parameter !== "") methodChange(parameter, event);
-    else methodChange();
-  });
+  element.addEventListener("change", parameter !== "" ? () => methodChange(parameter) : methodChange);
 };
 const loadClickEvent = (element, methodClick, parameter="") => {
-  element.addEventListener("click", () => {
-    if(parameter !== "") methodClick(parameter);
-    else methodClick();
-  });
+  element.addEventListener("click", parameter !== "" ? () => methodClick(parameter) : methodClick);
 };
 const loadInputEvent = (element, methodInput, parameter="") => {
-  element.addEventListener("input", (event) => {
-    if(parameter !== "") methodInput(parameter, event);
-    else methodInput();
-  });
+  element.addEventListener("input", parameter !== "" ? () => methodInput(parameter) : methodInput);
 };
-
+const loadSubmitEvent = (element, methodSubmit, parameter="") => {
+  element.addEventListener("submit", parameter !== "" ? () => methodSubmit(parameter) : methodSubmit);
+}
 const loadEvent = (element, methodLoad, parameter="") => {
-  element.addEventListener("load", () => {
-    if(parameter !== "") methodLoad(parameter);
-    else methodLoad();
-  }, true);
+  element.addEventListener("load", parameter !== "" ? () => methodLoad(parameter) : methodLoad, true);
 };
 
 export { 
@@ -42,5 +26,6 @@ export {
   loadChangeEvent,
   loadClickEvent,
   loadInputEvent,
+  loadSubmitEvent,
   loadEvent,
 };
