@@ -2,6 +2,7 @@ import {
   loadChangeEvent,
   loadClickEvent,
   loadInputEvent,
+  loadSubmitEvent,
   loadEvent
 } from "./Events.js";
 
@@ -105,7 +106,7 @@ const buttonStartEvent = () => {
 const toggleButton = () => {
   let content = document.getElementById("content");
   let btn = document.getElementById("as");
-  btn.textContent = btn.textContent === "CLOSE"? "START": "CLOSE";
+  btn.textContent = btn.textContent === "CLOSE" ? "START": "CLOSE";
   content.classList.toggle("hidden");
   window.scrollTo({
     top: 150,
@@ -162,6 +163,11 @@ const changedColor = (propsEvent, event) => {
   }
 };
 
+const onSubmit = (method) => {
+  let onForm = document.getElementById("calc-form");
+  loadSubmitEvent(onForm, method);
+}
+
 const mainEvent = (methodInitial) => {
   let title = document.title;
   let page = title.split(" ")[2];
@@ -177,5 +183,6 @@ export {
   buttonStartEvent,
   inputLenghtEvent,
   changedColorEvent,
+  onSubmit,
   mainEvent,
 };

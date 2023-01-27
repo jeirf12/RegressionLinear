@@ -54,11 +54,19 @@ class RowCollection {
   }
 
   summationSquareX() {
-    let sumXY = 0;
+    let sumXX = 0;
     this.rows.getRows().forEach((row) => {
-      sumXY += row.X * row.X;
+      sumXX += row.X * row.X;
     });
-    return sumXY;
+    return sumXX;
+  }
+
+  summationSquareY() {
+    let sumYY = 0;
+    this.rows.getRows().forEach((row) => {
+      sumYY += row.Y * row.Y;
+    });
+    return sumYY;
   }
 
   getColumnX() {
@@ -160,6 +168,16 @@ class RowCollection {
     return result;
   }
 
+  getFunctionCalculatedY(valueX) {
+    let result = this.getA() + (this.getB() * valueX); 
+    return result;
+  }
+
+  getFunctionCalculatedX(valueY) {
+    let result = (valueY - this.getA()) / this.getB(); 
+    return result;
+  }
+
   getValuesFunction() {
     let miArray = [];
     let auxA = this.getA();
@@ -170,6 +188,34 @@ class RowCollection {
       miArray.push(complete);
     });
     return miArray;
+  }
+
+  getSX() {
+    let sx;
+    let firstTerm = this.summationSquareX() / this.size();
+    let average = this.averageX();
+    let secondTerm = average * average;
+    sx = Math.sqrt(firstTerm - secondTerm);
+    return sx;
+  }
+
+  getSY() {
+    let sy;
+    let firstTerm = this.summationSquareY() / this.size();
+    let average = this.averageY();
+    let secondTerm = average * average;
+    sy = Math.sqrt(firstTerm - secondTerm);
+    return sy;
+  }
+
+  getCorrelation() {
+    let correlation = "";
+    let result = this.getCovariance() / (this.getSX() * this.getSY());
+    if(result <= 0 || result < 0.2) correlation = result+" --> No existe correlacion lineal entre variables";
+    else if(result <= 0.2 || result < 0.5) correlation = result+" --> La correlacion entre las variables es debil";
+    else if(result <= 0.5 || result < 0.7) correlation = result+" --> La correlacion entre las variables es fuerte";
+    else if(result <= 0.7 || result < 1) correlation = result+" --> La correlacion entre las variables es optima";
+    return correlation;
   }
 }
 
@@ -254,6 +300,8 @@ class Utilities {
     var promeX = dataExcel.averageX();
     var promeY = dataExcel.averageY();
     var funcion = dataExcel.getFunction();
+    let covariance = dataExcel.getCovariance();
+    let correlation = dataExcel.getCorrelation();
     let titleTable2 = document.createElement("h4");
     titleTable2.textContent = "Datos Obtenidos";
     let tab2 = document.createElement("table");
@@ -270,11 +318,15 @@ class Utilities {
           <th>promedio X</th>
           <th>Promedio Y</th>
           <th>funcion</th>
+          <th>covarianza</th>
+          <th>Coeficiente variacion</th>
         </tr>
         <tr>
           <td>${promeX}</td>
           <td>${promeY}</td>
           <td>${funcion}</td>
+          <td>${covariance}</td>
+          <td>${correlation}</td>
         </tr>
 		 `;
   }
@@ -406,6 +458,7 @@ class Utilities {
       },
     });
   }
+
   static sumDataRepeat = (array) => {
     let arrayResult = array.reduce((acc, number) => {
       acc
@@ -420,17 +473,21 @@ class Utilities {
     }, []);
     return arrayResult;
   };
+
   static colorToHex = (color) => {
     let hex = color.toString(16);
     return hex.length === 1 ? "0" + hex: hex;
   };
+
   static convertRGBtoHex = (red, green, blue) => {
     return "#" + this.colorToHex(red) + this.colorToHex(green) + this.colorToHex(blue);
   };
+
   static convertHextoRGB = (hex) => {
     let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
-  }
+  };
+
 }
 
 class Popup {

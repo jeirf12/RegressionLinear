@@ -9,6 +9,7 @@ import {
   inputLenghtEvent,
   mainEvent,
   changedColorEvent,
+  onSubmit,
 } from "./Controller.js";
 
 const popup = new Popup();
@@ -179,9 +180,18 @@ const showResult = () => {
     columnFunction: dataExcel.getValuesFunction()
   };
   Utilities.showGraph(propsChart);
+  genericForm("form-calX", "X");
+  genericForm("form-calY", "Y");
+  onSubmit(calculeEstimationValue);
   popup.show("success", "Cálculos hechos correctamente!");
   changedColorEvent(propsChart, Utilities);
 };
+
+const calculeEstimationValue = (e) => {
+  e.preventDefault();
+  let calc = document.getElementsByName("data");
+  console.log(calc[0]);
+}
 
 const inputExcel = () => {
   const excel = document.querySelector("#input-excel");
@@ -238,6 +248,31 @@ const verifiedOnlyNumber = (array) => {
     if (reg.test(row.X) && reg.test(row.Y)) value++;
   });
   return value === array.length;
+};
+
+const genericForm = (idform, letter) => {
+  let root = document.getElementById(idform);
+  root.appendChild(document.createTextNode("Calculo de disyuntivas para "+letter));
+  let body = document.createElement("form");
+  body.setAttribute("id", "calc-form")
+  let div = document.createElement("div");
+  let input = document.createElement("input");
+  div.appendChild(document.createElement("label").appendChild(document.createTextNode("digite un numero para "+letter)));
+  let divInput = document.createElement("div");
+  divInput.setAttribute("class", "group-input");
+  input.setAttribute("type", "text");
+  input.setAttribute("name", "data");
+  let input2 = document.createElement("input");
+  input2.setAttribute("type", "submit");
+  input2.setAttribute("value", "Calcular")
+  divInput.appendChild(input);
+  let p = document.createElement("p");
+  p.setAttribute("id", "result-cal"+letter);
+  divInput.appendChild(input2);
+  divInput.appendChild(p);
+  div.appendChild(divInput);
+  body.appendChild(div);
+  root.appendChild(body);
 };
 
 // Main program
