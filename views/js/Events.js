@@ -11,7 +11,7 @@ const loadClickEvent = (element, methodClick, parameter="") => {
   element.addEventListener("click", parameter !== "" ? () => methodClick(parameter) : methodClick);
 };
 const loadInputEvent = (element, methodInput, parameter="") => {
-  element.addEventListener("input", parameter !== "" ? () => methodInput(parameter) : methodInput);
+  element.addEventListener("input", parameter !== "" ? (event) => methodInput(parameter, event) : methodInput);
 };
 const loadSubmitEvent = (element, methodSubmit, parameter="") => {
   element.addEventListener("submit", parameter !== "" ? () => methodSubmit(parameter) : methodSubmit);

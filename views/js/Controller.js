@@ -2,7 +2,6 @@ import {
   loadChangeEvent,
   loadClickEvent,
   loadInputEvent,
-  loadSubmitEvent,
   loadEvent
 } from "./Events.js";
 
@@ -163,9 +162,10 @@ const changedColor = (propsEvent, event) => {
   }
 };
 
-const onSubmit = (method) => {
-  let onForm = document.getElementById("calc-form");
-  loadSubmitEvent(onForm, method);
+const onSubmit = (methodMain, props) => {
+  let onForm = document.getElementById("calc-form" + props.letter);
+  console.log(props, methodMain, onForm);
+  loadClickEvent(onForm, methodMain, props);
 }
 
 const mainEvent = (methodInitial) => {

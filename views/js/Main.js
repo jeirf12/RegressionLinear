@@ -45,6 +45,7 @@ const props = {
 
 const init = (propsInit) => {
   let content = document.getElementById("content");
+  content.innerHTML = "";
   let title = document.createElement("h4");
   title.textContent = propsInit.datatitle;
   let valueSelect = propsInit.value !== undefined ? "data" + propsInit.value : "data";
@@ -180,17 +181,22 @@ const showResult = () => {
     columnFunction: dataExcel.getValuesFunction()
   };
   Utilities.showGraph(propsChart);
-  genericForm("form-calX", "X");
-  genericForm("form-calY", "Y");
-  onSubmit(calculeEstimationValue);
+  console.log(dataExcel.getFunctionCalculatedX(12), "data");
+  genericForm("form-calX", "X", dataExcel);
+  genericForm("form-calY", "Y", dataExcel);
   popup.show("success", "Cálculos hechos correctamente!");
   changedColorEvent(propsChart, Utilities);
 };
 
-const calculeEstimationValue = (e) => {
-  e.preventDefault();
-  let calc = document.getElementsByName("data");
-  console.log(calc[0]);
+const calculeEstimationValue = (props) => {
+  let formPropertys = {
+    "X": props.data.getFunctionCalculatedY,
+    "Y": props.data.getFunctionCalculatedX,
+  }
+  let calc = document.getElementsByName("data" + props.letter)[0];
+  let result = document.getElementById("result-cal" + props.letter);
+  if(calc.value !== "") result.textContent = "Resultado: " + formPropertys[props.letter](Number(calc.value));
+  else result.textContent = "Ingrese un numero valido";
 }
 
 const inputExcel = () => {
@@ -250,29 +256,33 @@ const verifiedOnlyNumber = (array) => {
   return value === array.length;
 };
 
-const genericForm = (idform, letter) => {
+const genericForm = (idform, letter, data) => {
   let root = document.getElementById(idform);
-  root.appendChild(document.createTextNode("Calculo de disyuntivas para "+letter));
-  let body = document.createElement("form");
-  body.setAttribute("id", "calc-form")
-  let div = document.createElement("div");
+  root.innerHTML = "";
+  root.appendChild(document.createTextNode("Calculo de disyuntivas para " + letter));
   let input = document.createElement("input");
-  div.appendChild(document.createElement("label").appendChild(document.createTextNode("digite un numero para "+letter)));
+  let label = document.createElement("label");
+  label.textContent = "digite un numero para " + letter;
   let divInput = document.createElement("div");
   divInput.setAttribute("class", "group-input");
   input.setAttribute("type", "text");
-  input.setAttribute("name", "data");
+  input.setAttribute("name", "data" + letter);
   let input2 = document.createElement("input");
   input2.setAttribute("type", "submit");
+  input2.setAttribute("id", "calc-form" + letter)
   input2.setAttribute("value", "Calcular")
-  divInput.appendChild(input);
   let p = document.createElement("p");
   p.setAttribute("id", "result-cal"+letter);
+  divInput.appendChild(label);
+  divInput.appendChild(input);
   divInput.appendChild(input2);
   divInput.appendChild(p);
-  div.appendChild(divInput);
-  body.appendChild(div);
-  root.appendChild(body);
+  root.appendChild(divInput);
+  let propsForm = {
+    letter: letter,
+    data: data,
+  }
+  onSubmit(calculeEstimationValue, propsForm);
 };
 
 // Main program
