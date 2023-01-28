@@ -1,5 +1,5 @@
 # Stadistics Project - Regression Linear
-**See our project deploy [here](https://6393b3d5c729980cd809686f--super-bublanina-e9d84c.netlify.app/)**
+**See our project deploy [here](https://super-bublanina-e9d84c.netlify.app/)**
 ## :wrench: Instructions Execution Local
 **First of all open a command terminal (CLI):**
 > Then clone the repository with the following command
