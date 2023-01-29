@@ -331,8 +331,8 @@ const resetWindow = (content, value) => {
   if (value !== undefined) {
     content.getElementsByTagName("h4")[0]?.remove();
     content.getElementsByTagName("select")[0]?.remove();
-    content.getElementsByTagName("div")[2]?.remove();
-    content.getElementsByTagName("div")[2]?.remove();
+    content.getElementsByClassName("content-input")[0]?.remove();
+    content.getElementsByClassName("content-buttons")[0]?.remove();
   } else content.innerHTML = "";
 }
 
