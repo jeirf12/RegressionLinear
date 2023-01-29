@@ -218,7 +218,7 @@ const inputExcel = () => {
         excel.value = "";
         return;
       }
-      arraySheet = Utilities.sumDataRepeat(arraySheet);
+      // arraySheet = Utilities.sumDataRepeat(arraySheet);
       if (!verifiedOnlyNumber(arraySheet)) {
         popup.show("error", "Alguno de los datos no es un número válido");
         excel.value = "";
