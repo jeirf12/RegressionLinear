@@ -299,6 +299,7 @@ const createSelect = (valueSelect) => {
 const init = (propsInit) => {
   let content = document.getElementById("content");
   let title = document.createElement("h4");
+  resetWindow(content, propsInit.value);
   title.textContent = propsInit.datatitle;
   let valueSelect = propsInit.value !== undefined ? "data" + propsInit.value : "data";
   let select = createSelect(valueSelect);
@@ -325,6 +326,15 @@ const init = (propsInit) => {
   buttonStartEvent();
   createIcon();
 };
+
+const resetWindow = (content, value) => {
+  if (value === undefined) {
+    content.getElementsByTagName("h4")[0]?.remove();
+    content.getElementsByTagName("select")[0]?.remove();
+    content.getElementsByTagName("div")[2]?.remove();
+    content.getElementsByTagName("div")[2]?.remove();
+  } else content.innerHTML = "";
+}
 
 const createIcon = () => {
   let icon = document.createElement("link");
