@@ -13,6 +13,10 @@ import {
 } from "./Controller.js";
 
 const popup = new Popup();
+const variables = {
+  "X": "Y",
+  "Y": "X",
+}
 
 const createSelect = (valueSelect) => {
   let select = document.createElement("select");
@@ -45,7 +49,6 @@ const props = {
 
 const init = (propsInit) => {
   let content = document.getElementById("content");
-  content.innerHTML = "";
   let title = document.createElement("h4");
   title.textContent = propsInit.datatitle;
   let valueSelect = propsInit.value !== undefined ? "data" + propsInit.value : "data";
@@ -181,21 +184,16 @@ const showResult = () => {
     columnFunction: dataExcel.getValuesFunction()
   };
   Utilities.showGraph(propsChart);
-  console.log(dataExcel.getFunctionCalculatedX(12), "data");
-  genericForm("form-calX", "X", dataExcel);
-  genericForm("form-calY", "Y", dataExcel);
+  genericForm("form-calX", "X", (value) => dataExcel.getFunctionCalculatedY(value));
+  genericForm("form-calY", "Y", (value) => dataExcel.getFunctionCalculatedX(value));
   popup.show("success", "Cálculos hechos correctamente!");
   changedColorEvent(propsChart, Utilities);
 };
 
 const calculeEstimationValue = (props) => {
-  let formPropertys = {
-    "X": props.data.getFunctionCalculatedY,
-    "Y": props.data.getFunctionCalculatedX,
-  }
   let calc = document.getElementsByName("data" + props.letter)[0];
   let result = document.getElementById("result-cal" + props.letter);
-  if(calc.value !== "") result.textContent = "Resultado: " + formPropertys[props.letter](Number(calc.value));
+  if(calc.value !== "") result.textContent =  variables[props.letter]+": " + props.method(Number(calc.value));
   else result.textContent = "Ingrese un numero valido";
 }
 
@@ -256,10 +254,10 @@ const verifiedOnlyNumber = (array) => {
   return value === array.length;
 };
 
-const genericForm = (idform, letter, data) => {
+const genericForm = (idform, letter, method) => {
   let root = document.getElementById(idform);
   root.innerHTML = "";
-  root.appendChild(document.createTextNode("Calculo de disyuntivas para " + letter));
+  root.appendChild(document.createTextNode("Cálculo de recta de regresión estimada para " + variables[letter]));
   let input = document.createElement("input");
   let label = document.createElement("label");
   label.textContent = "digite un numero para " + letter;
@@ -280,7 +278,7 @@ const genericForm = (idform, letter, data) => {
   root.appendChild(divInput);
   let propsForm = {
     letter: letter,
-    data: data,
+    method: method,
   }
   onSubmit(calculeEstimationValue, propsForm);
 };

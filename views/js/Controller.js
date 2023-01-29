@@ -58,6 +58,7 @@ const selectLocation = (valueSelect) => {
 } 
 
 const loadExcelEvent = (methodInput) => {
+  console.log(document.querySelector("#input-excel"));
   loadChangeEvent(document.querySelector("#input-excel"), methodInput);
 };
 
@@ -164,7 +165,6 @@ const changedColor = (propsEvent, event) => {
 
 const onSubmit = (methodMain, props) => {
   let onForm = document.getElementById("calc-form" + props.letter);
-  console.log(props, methodMain, onForm);
   loadClickEvent(onForm, methodMain, props);
 }
 

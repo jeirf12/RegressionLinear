@@ -110,7 +110,7 @@ class RowCollection {
     let sumXY = this.summationXY();
     let n = this.size();
     let valueAverageY = this.averageY();
-    let scr = a * sumY + b * sumXY - n * valueAverageY * valueAverageY;
+    let scr = a * sumY + b * sumXY - n * (valueAverageY * valueAverageY);
     return scr;
   }
 
@@ -123,19 +123,15 @@ class RowCollection {
   }
 
   getSCT() {
-    let valueAverageY = this.averageY();
-    let columnY = this.getColumnY();
-    let sum = 0;
-    columnY.forEach((Y) => {
-      let aux = Y - valueAverageY;
-      let aux2 = aux * aux;
-      sum += aux2;
-    });
-    return sum;
+    let sumyy = this.summationY() * this.summationY();
+    let n = this.size();
+    let averageyy = this.averageY() * this.averageY();
+    let sct = sumyy - (n * averageyy);
+    return sct;
   }
 
   getCMR() {
-    let cmr = this.getSCT() / 1;
+    let cmr = this.getSCR() / 1;
     return cmr;
   }
 
@@ -250,14 +246,14 @@ class Utilities {
     table.querySelector("tbody").innerHTML += `
 			<tr>
 				<td>Regr. Lineal</td>
-				<td>${dataExcel.getSCR()}</td>
+				<td>${scr}</td>
 				<td>${glr}</td>
 				<td>${dataExcel.getCMR()}</td>
 				<td>${dataExcel.getF()}</td>
 			</tr>
 			<tr>
 				<td>Error</td>
-				<td>${dataExcel.getSCE()}</td>
+				<td>${sce}</td>
 				<td>${gle}</td>
 				<td>${dataExcel.getCME()}</td>
 				<td></td>
@@ -348,7 +344,7 @@ class Utilities {
     table.querySelector("thead>tr").innerHTML += `<th>X</th>`;
     table.querySelector("thead>tr").innerHTML += `<th>Y</th>`;
     this.dataInput.push(data);
-    this.dataInput = this.sumDataRepeat(this.dataInput);
+    // this.dataInput = this.sumDataRepeat(this.dataInput);
     this.dataInput.forEach((row) => {
     table.querySelector("tbody").innerHTML += `
 			<tr>
