@@ -485,6 +485,49 @@ class Utilities {
     return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
   };
 
+  static verifiedOnlyNumber(array) {
+    let value = 0;
+    let reg = /(^\d*\.?\d*[0-9]+\d*$)|(^[0-9]+\d*\.\d*$)/;
+    array.forEach((row) => {
+      if (reg.test(row.X) && reg.test(row.Y)) value++;
+    });
+    return value === array.length;
+  };
+  
+  static genericForm(idform, letter, method, onSubmit) {
+    let root = document.getElementById(idform);
+    root.innerHTML = "";
+    const variables = {
+      "X": "Y",
+      "Y": "X",
+    };
+    root.appendChild(document.createTextNode("Cálculo de recta de regresión estimada para " + variables[letter]));
+    let input = document.createElement("input");
+    let label = document.createElement("label");
+    label.textContent = "digite un numero para " + letter;
+    let divInput = document.createElement("div");
+    divInput.setAttribute("class", "group-input");
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "data" + letter);
+    let input2 = document.createElement("input");
+    input2.setAttribute("type", "submit");
+    input2.setAttribute("id", "calc-form" + letter)
+    input2.setAttribute("value", "Calcular")
+    let p = document.createElement("p");
+    p.setAttribute("id", "result-cal"+letter);
+    divInput.appendChild(label);
+    divInput.appendChild(input);
+    divInput.appendChild(input2);
+    divInput.appendChild(p);
+    root.appendChild(divInput);
+    let propsForm = {
+      letter: letter,
+      method: method,
+      variables: variables,
+    };
+    onSubmit(propsForm);
+};
+
 }
 
 class Popup {

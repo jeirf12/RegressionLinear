@@ -13,9 +13,6 @@ const loadClickEvent = (element, methodClick, parameter="") => {
 const loadInputEvent = (element, methodInput, parameter="") => {
   element.addEventListener("input", parameter !== "" ? (event) => methodInput(parameter, event) : methodInput);
 };
-const loadSubmitEvent = (element, methodSubmit, parameter="") => {
-  element.addEventListener("submit", parameter !== "" ? () => methodSubmit(parameter) : methodSubmit);
-}
 const loadEvent = (element, methodLoad, parameter="") => {
   element.addEventListener("load", parameter !== "" ? () => methodLoad(parameter) : methodLoad, true);
 };
@@ -26,6 +23,5 @@ export {
   loadChangeEvent,
   loadClickEvent,
   loadInputEvent,
-  loadSubmitEvent,
   loadEvent,
 };
