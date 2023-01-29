@@ -328,7 +328,7 @@ const init = (propsInit) => {
 };
 
 const resetWindow = (content, value) => {
-  if (value === undefined) {
+  if (value !== undefined) {
     content.getElementsByTagName("h4")[0]?.remove();
     content.getElementsByTagName("select")[0]?.remove();
     content.getElementsByTagName("div")[2]?.remove();
