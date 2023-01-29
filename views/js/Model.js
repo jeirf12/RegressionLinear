@@ -237,12 +237,14 @@ class Utilities {
     table.querySelector("thead>tr").innerHTML += `<th>GL</th>`;
     table.querySelector("thead>tr").innerHTML += `<th>CM</th>`;
     table.querySelector("thead>tr").innerHTML += `<th>Fc</th>`;
+    table.querySelector("thead>tr").innerHTML += `<th>Determinante</th>`;
     let scr = dataExcel.getSCR();
     let sce = dataExcel.getSCE();
-    let sct = scr + sce;
+    let sct = dataExcel.getSCT();
     let glr = 1;
     let glt = dataExcel.size() - 1;
     let gle = glt - glr;
+    let R2 = 1 - (sce / sct);
     table.querySelector("tbody").innerHTML += `
 			<tr>
 				<td>Regr. Lineal</td>
@@ -250,20 +252,19 @@ class Utilities {
 				<td>${glr}</td>
 				<td>${dataExcel.getCMR()}</td>
 				<td>${dataExcel.getF()}</td>
+                <td>${R2}</td>
 			</tr>
 			<tr>
 				<td>Error</td>
 				<td>${sce}</td>
 				<td>${gle}</td>
 				<td>${dataExcel.getCME()}</td>
-				<td></td>
 			</tr>
 			<tr>
 				<td>T</td>
 				<td>${sct}</td>
 				<td>${glt}</td>
 				<td>${sct / glt}</td>
-				<td></td>
 			</tr>
 			`;
   }
