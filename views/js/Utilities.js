@@ -111,24 +111,27 @@ class Utilities {
 		 `;
   }
 
-  static showTable(data) {
+  static showTable({data, editTableEvent}) {
     let table = document.getElementById("table-content");
     table.innerHTML = "";
     let titleTable = document.createElement("h4");
     titleTable.textContent = "Tabla Datos Ingresados";
     let tab = document.createElement("table");
+    tab.setAttribute("id", "datos-insertados");
     let tr = document.createElement("tr");
     let th = document.createElement("thead");
     let tb = document.createElement("tbody");
+    let p = document.createElement("p");
+    p.textContent = "Nota: Para modificar los valores, dar doble click en el valor a cambiar, puede dar enter o escape para guardar el valor"
     th.appendChild(tr);
     tab.appendChild(th);
     tab.appendChild(tb);
     table.appendChild(titleTable);
+    table.appendChild(p);
     table.appendChild(tab);
     table.querySelector("thead>tr").innerHTML += `<th>X</th>`;
     table.querySelector("thead>tr").innerHTML += `<th>Y</th>`;
-    this.dataInput.push(data);
-    // this.dataInput = this.sumDataRepeat(this.dataInput);
+    if(data !== "") this.dataInput.push(data);
     this.dataInput.forEach((row) => {
     table.querySelector("tbody").innerHTML += `
 			<tr>
@@ -137,6 +140,7 @@ class Utilities {
 			</tr>
 			`;
     });
+    editTableEvent();
   }
 
   static showTableInput() {

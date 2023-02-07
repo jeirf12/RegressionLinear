@@ -6,8 +6,11 @@ import { Utilities } from "./Utilities.js";
 import {
   loadChangeEvent,
   loadClickEvent,
+  loadDBClickEvent,
   loadInputEvent,
-  loadEvent
+  loadEvent,
+  loadBlurEvent,
+  loadKeyDownEvent
 } from "./Events.js";
 
 const popup = new Popup();
@@ -134,7 +137,7 @@ const buttonParamEvent = ({ Utilities, popup }) => {
         popup.show("error", "Alguno de los campos no es numérico");
       }else if (inputX.replace(/\D+/g, "").length <= 5 && inputY.replace(/\D+/g, "").length <= 5){
         let data = { X: numX, Y: numY };
-        Utilities.showTable(data);
+        Utilities.showTable({data, editTableEvent});
         inputs[0].value = "";
         inputs[1].value = "";
       } else {
@@ -202,6 +205,47 @@ const toggleButton = () => {
     top: 150,
     behavior: "smooth",
   });
+};
+
+const editTableEvent = () => {
+  let table = document.getElementById("datos-insertados");
+  let tdsTable = table.querySelectorAll("td");
+
+  tdsTable.forEach((td) => {
+    loadDBClickEvent(td, editTable, td);
+  });
+};
+
+const editTable = (event) => {
+  let input = document.createElement("input");
+  input.value = event.textContent;
+
+  loadBlurEvent(input, removeInput, input);
+  loadKeyDownEvent(input, (event) => {
+    if(event.which == 13) removeInput(input);
+  });
+  event.textContent = "";
+  event.appendChild(input);
+};
+
+const removeInput = (input) => { 
+  input.parentElement.textContent = input.value; 
+  Utilities.dataInput = loadDataList(Utilities.dataInput);
+  Utilities.showTable({data: "", editTableEvent});
+};
+
+const loadDataList = (dataBackup) => {
+  let newData = [];
+  let table = document.getElementById("datos-insertados");
+  let row = table.rows;
+  
+  for(let i = 1; i < row.length; i++){
+    let cellX = Number(row[i].cells[0].innerText);
+    let cellY = Number(row[i].cells[1].innerText);
+    if(isNaN(cellX) || isNaN(cellY)) return dataBackup;
+    newData.push({ X: cellX, Y: cellY }) ;
+  }
+  return newData;
 }
 
 const inputLenghtEvent = () => {
