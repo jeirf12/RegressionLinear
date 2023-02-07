@@ -112,6 +112,8 @@ const inputExcel = ({ Utilities, popup }) => {
         columnFunction: dataExcel.getValuesFunction()
       };
       Utilities.showGraph(propsChart);
+      Utilities.genericForm("form-calX", "X", (value) => dataExcel.getFunctionCalculatedY(value), onSubmit);
+      Utilities.genericForm("form-calY", "Y", (value) => dataExcel.getFunctionCalculatedX(value), onSubmit);
       popup.show("success", "Cálculos hechos correctamente!");
       changedColorEvent(propsChart, Utilities);
     };
