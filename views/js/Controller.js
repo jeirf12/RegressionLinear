@@ -94,11 +94,13 @@ const inputExcel = ({ Utilities, popup }) => {
           "warning",
           "No se puede calcular porque los encabezados debe ser tipo X y Y en mayusculas"
         );
+        document.getElementById("info-excel").textContent = "Seleccioné un archivo";
         excel.value = "";
         return;
       }
       if (!Utilities.verifiedOnlyNumber(arraySheet)) {
         popup.show("error", "Alguno de los datos no es un número válido");
+        document.getElementById("info-excel").textContent = "Seleccioné un archivo";
         excel.value = "";
         return;
       }
