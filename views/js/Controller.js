@@ -144,6 +144,9 @@ const buttonParamEvent = ({ Utilities, popup }) => {
         Utilities.showTable({data, editTableEvent});
         inputs[0].value = "";
         inputs[1].value = "";
+        if (Utilities.dataInput.length > 1) {
+          btn2[0].classList.remove("disabled");
+        }
       } else {
         popup.show("warning", "el campo solo recibe hasta 5 caracteres");
       }
@@ -152,7 +155,6 @@ const buttonParamEvent = ({ Utilities, popup }) => {
       inputs[1].value = inputs[1].value !== "" ? inputs[1].value : "";
       popup.show("warning", "Alguno de los campos no deben estar vacíos");
     }
-    if (Utilities.dataInput.lenght > 1) btn2[0].classList.remove("disabled");
   });
 };
 

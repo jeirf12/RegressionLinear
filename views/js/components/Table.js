@@ -64,7 +64,7 @@ class Table {
     btn1.setAttribute("type", "button");
     btn1.textContent = " + ";
     let btn2 = document.createElement("button");
-    btn2.setAttribute("class", "showResult");
+    btn2.setAttribute("class", "showResult disabled");
     btn2.setAttribute("type", "button");
     btn2.textContent = "Calcular";
     div.appendChild(btn1);
