@@ -4,13 +4,13 @@ import { Header } from "./components/Header.js";
 import { Row, RowCollection } from "./model/Row.js";
 import { Utilities } from "./Utilities.js";
 import {
-  loadChangeEvent,
-  loadClickEvent,
-  loadDBClickEvent,
-  loadInputEvent,
-  loadEvent,
-  loadBlurEvent,
-  loadKeyDownEvent
+  addChangeEvent,
+  addClickEvent,
+  addDBClickEvent,
+  addInputEvent,
+  addLoadEvent,
+  addBlurEvent,
+  addKeyDownEvent
 } from "./Events.js";
 
 const popup = new Popup();
@@ -20,26 +20,26 @@ const props = {
   popup: popup,
 }
 
-const loadClosePopupEvent = (value) => {
+const addClosePopupEvent = (value) => {
   let element = document.getElementById("myPopup");
   let btnClose = document.getElementsByClassName("popup-close")[0];
-  loadClickEvent(btnClose, ()=> {
+  addClickEvent(btnClose, ()=> {
     let select = document.getElementById("data-input");
     select.value = value;
     element.classList.add("popup-invisible");
   });
 }
 
-const loadClickPopupEvent = (props) => {
+const addClickPopupEvent = (props) => {
   let btnCancel = document.getElementById("cancel");
   let btnOk = document.getElementById("ok");
-  loadClickEvent(btnCancel, () => {
+  addClickEvent(btnCancel, () => {
     let select = document.getElementById("data-input");
     select.value = props.valueSelectPrev;
     props.content.classList.toggle(`popup-${props.state}`);
     props.element.classList.add("popup-invisible");
   });
-  loadClickEvent(btnOk, () => {
+  addClickEvent(btnOk, () => {
     props.element.classList.add("popup-invisible");
     selectLocation(props.valueSelect);
   });
@@ -49,7 +49,7 @@ const selectEvent = (props) => {
   let select = document.getElementById("data-input");
   props.select = select;
   props.valueSelectPrev = select.value;
-  loadChangeEvent(select, loadSelect, props);
+  addChangeEvent(select, loadSelect, props);
 };
 
 const loadSelect = (props) => {
@@ -59,7 +59,7 @@ const loadSelect = (props) => {
     props.popup.showWithButtons({
       stateProp: "success",
       message: "¿Desea salir de la página?",
-      method: loadClickPopupEvent,
+      method: addClickPopupEvent,
       valueSelect: valueSelect,
       valueSelectPrev: props.valueSelectPrev
     });
@@ -73,7 +73,7 @@ const selectLocation = (valueSelect) => {
 } 
 
 const loadExcelEvent = (props) => {
-  loadChangeEvent(document.querySelector("#input-excel"), inputExcel, props);
+  addChangeEvent(document.querySelector("#input-excel"), inputExcel, props);
 };
 
 const inputExcel = ({ Utilities, popup }) => {
@@ -131,7 +131,7 @@ const buttonParamEvent = ({ Utilities, popup }) => {
   let btn = document.getElementsByClassName("addParam");
   let btn2 = document.getElementsByClassName("showResult");
   let inputs = document.getElementsByTagName("input");
-  loadClickEvent(btn[0], () => {
+  addClickEvent(btn[0], () => {
     let inputX = inputs[0].value;
     let inputY = inputs[1].value;
     if (inputX !== "" && inputY !== "") {
@@ -160,7 +160,7 @@ const buttonParamEvent = ({ Utilities, popup }) => {
 
 const buttonResultEvent = (props) => {
   let btn2 = document.getElementsByClassName("showResult")[0];
-  loadClickEvent(btn2, showResult, props);
+  addClickEvent(btn2, showResult, props);
 };
 
 const showResult = ({Utilities, popup}) => {
@@ -199,7 +199,7 @@ const showResult = ({Utilities, popup}) => {
 
 const buttonStartEvent = () => {
   let button = document.getElementById("as");
-  if (button !== null) loadClickEvent(button, toggleButton); 
+  if (button !== null) addClickEvent(button, toggleButton); 
 };
 
 const toggleButton = () => {
@@ -218,7 +218,7 @@ const editTableEvent = () => {
   let tdsTable = table.querySelectorAll("td");
 
   tdsTable.forEach((td) => {
-    loadDBClickEvent(td, editTable, td);
+    addDBClickEvent(td, editTable, td);
   });
 };
 
@@ -226,8 +226,8 @@ const editTable = (event) => {
   let input = document.createElement("input");
   input.value = event.textContent;
 
-  loadBlurEvent(input, removeInput, input);
-  loadKeyDownEvent(input, (event) => {
+  addBlurEvent(input, removeInput, input);
+  addKeyDownEvent(input, (event) => {
     if(event.which == 13) removeInput(input);
   });
   event.textContent = "";
@@ -256,11 +256,11 @@ const loadDataList = (dataBackup) => {
 
 const inputLenghtEvent = () => {
   let inputs = document.getElementsByTagName("input");
-  loadInputEvent(inputs[0], () => {
+  addInputEvent(inputs[0], () => {
     let value = inputNumber(inputs[0], "parameterError");
     inputs[0].value = value;
   });
-  loadInputEvent(inputs[1], () => {
+  addInputEvent(inputs[1], () => {
     let value = inputNumber(inputs[1], "valueError");
     inputs[1].value = value;
   });
@@ -284,8 +284,8 @@ const inputNumber = (input, idspan) => {
 
 const changedColorEvent = (props, utilities) => {
   let propsEvent = { props, utilities}
-  loadInputEvent(graphD, changedColor, propsEvent);
-  loadInputEvent(graphF, changedColor, propsEvent);
+  addInputEvent(graphD, changedColor, propsEvent);
+  addInputEvent(graphF, changedColor, propsEvent);
 };
 
 const changedColor = (propsEvent, event) => {
@@ -305,7 +305,7 @@ const changedColor = (propsEvent, event) => {
 
 const onSubmit = (props) => {
   let onForm = document.getElementById("calc-form" + props.letter);
-  loadClickEvent(onForm, calculeEstimationValue, props);
+  addClickEvent(onForm, calculeEstimationValue, props);
 }
 
 const calculeEstimationValue = (props) => {
@@ -318,7 +318,7 @@ const calculeEstimationValue = (props) => {
 const mainEvent = () => {
   let title = document.title;
   let page = title.split(" ")[2];
-  loadEvent(document.getElementsByTagName("body")[0], init, { datatitle: title, value: page });
+  addLoadEvent(document.getElementsByTagName("body")[0], init, { datatitle: title, value: page });
 };
 
 const init = (propsInit) => {
@@ -344,7 +344,7 @@ const init = (propsInit) => {
   } else if (valueSelect === "dataManual") {
     Table.create({inputLenghtEvent, buttonParamEvent, buttonResultEvent, props});
   } 
-  loadClosePopupEvent(valueSelect);
+  addClosePopupEvent(valueSelect);
   buttonStartEvent();
 };
 

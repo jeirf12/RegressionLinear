@@ -1,35 +1,37 @@
-const loadBlurEvent = (element, methodBlur, parameter="") => {
-  element.addEventListener("blur", parameter !== "" ? () => methodBlur(parameter) : methodBlur);
+const addParam = (method, parameter) => { return parameter !== "" ? () => method(parameter) : method };
+
+const addBlurEvent = (element, methodBlur, parameter="") => {
+  element.addEventListener("blur", addParam(methodBlur, parameter));
 };
-const loadKeyupEvent = (element, methodKeyup, parameter="") => {
-  element.addEventListener("keyup", parameter !== "" ? () => methodKeyup(parameter) : methodKeyup);
+const addKeyupEvent = (element, methodKeyup, parameter="") => {
+  element.addEventListener("keyup", addParam(methodKeyup, parameter));
 };
-const loadKeyDownEvent = (element, methodKeyDown, parameter="") => {
-  element.addEventListener("keydown", parameter !== "" ? () => methodKeyDown(parameter) : methodKeyDown);
+const addKeyDownEvent = (element, methodKeyDown, parameter="") => {
+  element.addEventListener("keydown", addParam(methodKeyDown, parameter));
 };
-const loadChangeEvent = (element, methodChange, parameter="") => {
-  element.addEventListener("change", parameter !== "" ? () => methodChange(parameter) : methodChange);
+const addChangeEvent = (element, methodChange, parameter="") => {
+  element.addEventListener("change", addParam(methodChange, parameter));
 };
-const loadClickEvent = (element, methodClick, parameter="") => {
-  element.addEventListener("click", parameter !== "" ? () => methodClick(parameter) : methodClick);
+const addClickEvent = (element, methodClick, parameter="") => {
+  element.addEventListener("click", addParam(methodClick, parameter));
 };
-const loadDBClickEvent = (element, methodDBClick, parameter="") => {
-  element.addEventListener("dblclick", parameter !== "" ? () => methodDBClick(parameter) : methodDBClick);
+const addDBClickEvent = (element, methodDBClick, parameter="") => {
+  element.addEventListener("dblclick", addParam(methodDBClick, parameter));
 };
-const loadInputEvent = (element, methodInput, parameter="") => {
+const addInputEvent = (element, methodInput, parameter="") => {
   element.addEventListener("input", parameter !== "" ? (event) => methodInput(parameter, event) : methodInput);
 };
-const loadEvent = (element, methodLoad, parameter="") => {
-  element.addEventListener("load", parameter !== "" ? () => methodLoad(parameter) : methodLoad, true);
+const addLoadEvent = (element, methodLoad, parameter="") => {
+  element.addEventListener("load", addParam(methodLoad, parameter), true);
 };
 
 export { 
-  loadBlurEvent,
-  loadKeyupEvent,
-  loadKeyDownEvent,
-  loadChangeEvent,
-  loadClickEvent,
-  loadDBClickEvent,
-  loadInputEvent,
-  loadEvent,
+  addBlurEvent,
+  addKeyupEvent,
+  addKeyDownEvent,
+  addChangeEvent,
+  addClickEvent,
+  addDBClickEvent,
+  addInputEvent,
+  addLoadEvent,
 };
