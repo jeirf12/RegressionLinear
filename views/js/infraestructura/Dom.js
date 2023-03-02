@@ -12,17 +12,17 @@ class Dom {
 
   static createGroupInput({ type = "", id = "", name = "", textLabel = "", idContent = "" }) {
     let divContentInput = this.createDiv({ id: idContent });
-    let labelInput = document.createElement("span");
-    labelInput.textContent = textLabel;
+    let labelInput = this.createSpan({ text: textLabel });
     let valueInput = this.createInput({ name, type, id, });
     divContentInput.appendChild(labelInput);
     divContentInput.appendChild(valueInput);
     return divContentInput;
   }
 
-  static createButton({ className = "", type = "button", text = "" }) {
+  static createButton({ className = "", id = "", type = "button", text = "" }) {
     let button = document.createElement("button");
     button.setAttribute("class", className);
+    button.setAttribute("id", id);
     button.setAttribute("type", type);
     button.textContent = text;
     return button;
@@ -45,11 +45,12 @@ class Dom {
     return input;
   }
 
-  static createSpan({ className = "", id = "", text = "" }) {
+  static createSpan({ className = "", id = "", text = "", textHTML = "" }) {
     let span = document.createElement("span");
     span.setAttribute("class", className);
     span.setAttribute("id", id);
-    span.textContent = text;
+    if (textHTML !== "") span.innerHTML = textHTML;
+    else span.textContent = text;
     return span;
   }
 
@@ -90,8 +91,12 @@ class Dom {
     link.setAttribute("href", href);
     return link;
   }
+
+  static createITag({ className = "" }) {
+    let i = document.createElement("i");
+    i.setAttribute("class", className);
+    return i;
+  }
 }
 
-export { 
-  Dom,
-}
+export { Dom }

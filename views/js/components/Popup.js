@@ -1,3 +1,5 @@
+import { Dom } from "../infraestructura/Dom.js";
+
 class Popup {
 
   init() {
@@ -8,19 +10,11 @@ class Popup {
       warning: "fa-circle-exclamation",
       error: "fa-circle-xmark",
     };
-    this.parent = document.createElement("div");
-    this.parent.setAttribute("class", "popup popup-invisible");
-    this.parent.setAttribute("id", "myPopup");
-    this.child = document.createElement("div");
-    this.child.setAttribute("id", "myPopupContent");
-    this.child.setAttribute("class", "popup-content");
-    this.span = document.createElement("span");
-    this.span.setAttribute("class", "popup-close");
-    this.span.innerHTML = "&times;";
-    this.i = document.createElement("i");
-    this.i.setAttribute("class", "fa-solid");
-    this.p = document.createElement("p");
-    this.p.setAttribute("class", "popup-message");
+    this.parent = Dom.createDiv({ className: "popup popup-invisible", id: "myPopup" });
+    this.child = Dom.createDiv({ className: "popup-content", id: "myPopupContent" });
+    this.span = Dom.createSpan({ className: "popup-close", textHTML: "&times;" });
+    this.i = Dom.createITag({ className: "fa-solid" });
+    this.p = Dom.createParagraph({ className: "popup-message" });
     this.child.appendChild(this.span);
     this.child.appendChild(this.i);
     this.child.appendChild(this.p);
@@ -33,14 +27,9 @@ class Popup {
     let ok = document.getElementById("ok");
     if (cancel === null && ok === null) {
       let popup = document.getElementById("myPopupContent");
-      this.divButtons = document.createElement("div");
-      this.divButtons.setAttribute("class", "popup-buttons");
-      this.buttonCancel = document.createElement("button");
-      this.buttonCancel.setAttribute("id", "cancel");
-      this.buttonCancel.textContent = "Cancelar";
-      this.buttonOk = document.createElement("button");
-      this.buttonOk.setAttribute("id", "ok");
-      this.buttonOk.textContent = "Aceptar";
+      this.divButtons = Dom.createDiv({ className: "popup-buttons" });
+      this.buttonCancel = Dom.createButton({ id: "cancel", text: "Cancelar" });
+      this.buttonOk = Dom.createButton({ id: "ok", text: "Aceptar" });
       this.divButtons.appendChild(this.buttonCancel);
       this.divButtons.appendChild(this.buttonOk);
       popup.appendChild(this.divButtons);

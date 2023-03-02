@@ -1,8 +1,10 @@
-import { Popup } from "./components/Popup.js";
-import { Table } from "./components/Table.js";
-import { Header } from "./components/Header.js";
-import { Row, RowCollection } from "./model/Row.js";
-import { Utilities } from "./Utilities.js";
+import { Popup } from "../components/Popup.js";
+import { Table } from "../components/Table.js";
+import { Header } from "../components/Header.js";
+import { Row } from "../model/Row.js";
+import { RowCollection } from "../model/RowCollection.js";
+import { Utilities } from "../infraestructura/Utilities.js";
+import { Dom } from "../infraestructura/Dom.js";
 import {
   addChangeEvent,
   addClickEvent,
@@ -11,7 +13,7 @@ import {
   addLoadEvent,
   addBlurEvent,
   addKeyDownEvent
-} from "./Events.js";
+} from "../infraestructura/Events.js";
 
 const popup = new Popup();
 
@@ -174,10 +176,7 @@ const showResult = ({Utilities, popup}) => {
     return;
   }
   if (table.length < 2) {
-    popup.show(
-      "error",
-      "Al menos debe ingresar dos filas para poder hacer el cálculo"
-    );
+    popup.show("error", "Al menos debe ingresar dos filas para poder hacer el cálculo");
     if (table.length > 0) Utilities.showTableInput();
     return;
   }
@@ -223,13 +222,10 @@ const editTableEvent = () => {
 };
 
 const editTable = (event) => {
-  let input = document.createElement("input");
-  input.value = event.textContent;
+  let input = Dom.createInput({ value: event.textContent });
 
   addBlurEvent(input, removeInput, input);
-  addKeyDownEvent(input, (event) => {
-    if(event.which == 13) removeInput(input);
-  });
+  addKeyDownEvent(input, (event) => { if(event.which == 13) removeInput(input); });
   event.textContent = "";
   event.appendChild(input);
 };

@@ -1,18 +1,13 @@
+import { Dom } from "./Dom.js";
+
 class Utilities {
   static dataInput = [];
 
   static showTableAnova(idTable, dataExcel) {
     let table = document.getElementById(idTable);
     table.innerHTML = "";
-    let titleTable = document.createElement("h4");
-    titleTable.textContent = "Tabla Anova";
-    let tab = document.createElement("table");
-    let tr = document.createElement("tr");
-    let th = document.createElement("thead");
-    let tb = document.createElement("tbody");
-    th.appendChild(tr);
-    tab.appendChild(th);
-    tab.appendChild(tb);
+    let titleTable = Dom.createH({ id: "4", text: "Tabla Anova" });
+    let tab = Dom.createTable();
     table.appendChild(titleTable);
     table.appendChild(tab);
     table.querySelector("thead>tr").innerHTML += `<th>Fuente</th>`;
@@ -55,15 +50,8 @@ class Utilities {
   static showTableExcel(idTable, dataExcel) {
     this.dataInput = dataExcel.getRows(); // Esta linea verifica para salir de la vista con calculos en excel
     let table = document.getElementById(idTable);
-    let titleTable = document.createElement("h4");
-    titleTable.textContent = "Tabla Ingresada";
-    let tab = document.createElement("table");
-    let tr = document.createElement("tr");
-    let th = document.createElement("thead");
-    let tb = document.createElement("tbody");
-    th.appendChild(tr);
-    tab.appendChild(th);
-    tab.appendChild(tb);
+    let titleTable = Dom.createH({ id: "4", text: "Tabla Ingresada" });
+    let tab = Dom.createTable();
     table.appendChild(titleTable);
     table.appendChild(tab);
     table.querySelector("thead>tr").innerHTML += `<th>X</th>`;
@@ -84,13 +72,7 @@ class Utilities {
     let correlation = dataExcel.getCorrelation();
     let titleTable2 = document.createElement("h4");
     titleTable2.textContent = "Datos Obtenidos";
-    let tab2 = document.createElement("table");
-    let tr2 = document.createElement("tr");
-    let th2 = document.createElement("thead");
-    let tb2 = document.createElement("tbody");
-    th2.appendChild(tr2);
-    tab2.appendChild(th2);
-    tab2.appendChild(tb2);
+    let tab2 = Dom.createTable();
     table2.appendChild(titleTable2);
     table2.appendChild(tab2);
     table2.querySelector("tbody").innerHTML += `
@@ -114,18 +96,10 @@ class Utilities {
   static showTable({data, editTableEvent}) {
     let table = document.getElementById("table-content");
     table.innerHTML = "";
-    let titleTable = document.createElement("h4");
-    titleTable.textContent = "Tabla Datos Ingresados";
-    let tab = document.createElement("table");
+    let titleTable = Dom.createH({ id: "4", text: "Tabla Datos Ingresados" });
+    let tab = Dom.createTable();
     tab.setAttribute("id", "datos-insertados");
-    let tr = document.createElement("tr");
-    let th = document.createElement("thead");
-    let tb = document.createElement("tbody");
-    let p = document.createElement("p");
-    p.textContent = "Nota: Para modificar los valores, dar doble click en el valor a cambiar, puede dar enter o escape para guardar el valor"
-    th.appendChild(tr);
-    tab.appendChild(th);
-    tab.appendChild(tb);
+    let p = Dom.createParagraph({ text: "Nota: Para modificar los valores, dar doble click en el valor a cambiar, puede dar enter o escape para guardar el valor", });
     table.appendChild(titleTable);
     table.appendChild(p);
     table.appendChild(tab);
@@ -146,15 +120,8 @@ class Utilities {
   static showTableInput() {
     let table = document.getElementById("table-content");
     table.innerHTML = "";
-    let titleTable = document.createElement("h4");
-    titleTable.textContent = "Tabla Datos Ingresados";
-    let tab = document.createElement("table");
-    let tr = document.createElement("tr");
-    let th = document.createElement("thead");
-    let tb = document.createElement("tbody");
-    th.appendChild(tr);
-    tab.appendChild(th);
-    tab.appendChild(tb);
+    let titleTable = Dom.createH({ id: "4", text: "Tabla Datos Ingresados" });
+    let tab = Dom.createTable();
     table.appendChild(titleTable);
     table.appendChild(tab);
     table.querySelector("thead>tr").innerHTML += `<th>X</th>`;
@@ -180,32 +147,24 @@ class Utilities {
     let graphF = document.getElementById("graphF")
     if (graphD === null && graphF === null) {
       let context = document.getElementById("content");
-      let div = document.createElement("div");
-      let title = document.createElement("H3");
-      title.textContent = "Elija un color deseado para:";
-      let div1 = document.createElement("div");
-      div1.setAttribute("id", "contentD");
-      let span = document.createElement("span");
-      let span2 = document.createElement("span");
-      span.textContent = "Gráfico Dispersión";
-      div1.appendChild(span);
-      let div2 = document.createElement("div");
-      div2.setAttribute("id", "contentF");
-      div.setAttribute("class", "input-colors");
-      let color = document.createElement("input");
-      let color2 = document.createElement("input");
-      color.setAttribute("type", "color");
-      color.setAttribute("id", "graphD");
-      span2.textContent = "Gráfico Función";
-      div2.appendChild(span2);
-      color2.setAttribute("type", "color");
-      color2.setAttribute("id", "graphF");
+      let div = Dom.createDiv({ className: "input-colors" });
+      let title = Dom.createH({ id: "3", text: "Elija un color deseado para:" });
+      let div1 = Dom.createGroupInput({
+        type: "color",
+        id: "graphD",
+        textLabel: "Gráfico Dispersión",
+        idContent: "contentD",
+      });
+      let div2 = Dom.createGroupInput({
+        type: "color",
+        id: "graphF",
+        textLabel: "Gráfico Función",
+        idContent: "contentF",
+      });
       colorD = colorD.split(",");
       colorF = colorF.split(",");
-      color.value = this.convertRGBtoHex(Number(colorD[0]), Number(colorD[1]), Number(colorD[2]));
-      color2.value = this.convertRGBtoHex(Number(colorF[0]), Number(colorF[1]), Number(colorF[2])); 
-      div1.appendChild(color);
-      div2.appendChild(color2);
+      div1.getElementsByTagName("input")[0].value = this.convertRGBtoHex(Number(colorD[0]), Number(colorD[1]), Number(colorD[2]));
+      div2.getElementsByTagName("input")[0].value = this.convertRGBtoHex(Number(colorF[0]), Number(colorF[1]), Number(colorF[2])); 
       div.appendChild(title);
       div.appendChild(div1);
       div.appendChild(div2);
@@ -289,22 +248,15 @@ class Utilities {
       "Y": "X",
     };
     root.appendChild(document.createTextNode("Cálculo de recta de regresión estimada para " + variables[letter]));
-    let input = document.createElement("input");
-    let label = document.createElement("label");
-    label.textContent = "digite un numero para " + letter;
-    let divInput = document.createElement("div");
-    divInput.setAttribute("class", "group-input");
-    input.setAttribute("type", "text");
-    input.setAttribute("name", "data" + letter);
-    let input2 = document.createElement("input");
-    input2.setAttribute("type", "submit");
-    input2.setAttribute("id", "calc-form" + letter)
-    input2.setAttribute("value", "Calcular")
-    let p = document.createElement("p");
-    p.setAttribute("id", "result-cal"+letter);
-    divInput.appendChild(label);
+    let divInput = Dom.createGroupInput({
+      type: "text",
+      name: "data" + letter,
+      textLabel: "digite un numero para " + letter,
+      idContent: "group-input",
+    });
+    let input = Dom.createInput({ type: "submit", id: "calc-form" + letter, value: "Calcular", });
+    let p = Dom.createParagraph({ id: "result-cal" + letter, });
     divInput.appendChild(input);
-    divInput.appendChild(input2);
     divInput.appendChild(p);
     root.appendChild(divInput);
     let propsForm = {

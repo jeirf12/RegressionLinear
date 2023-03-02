@@ -1,15 +1,17 @@
+import { 
+  Dom
+} from "../infraestructura/Dom.js";
+
 class Table {
 
   static create({inputLenghtEvent, buttonParamEvent, buttonResultEvent, props}) {
     let content = document.getElementById("content");
     let table = document.getElementById("table-content");
-    let root = document.createElement("div");
-    root.setAttribute("class", "content-input");
-    let rootBtn = document.createElement("div");
-    rootBtn.setAttribute("class", "content-buttons");
+    let root = Dom.createDiv({ className: "content-input" })
+    let rootBtn = Dom.createDiv({ className: "content-buttons" });
     this.addTitles(root);
     this.addInput(root);
-    rootBtn.appendChild(this.addButton());
+    rootBtn.appendChild(this.addButtons());
     content.insertBefore(root, table);
     content.insertBefore(rootBtn, table);
     buttonParamEvent(props);
@@ -18,14 +20,10 @@ class Table {
   }
 
   static addTitles(root) {
-    let div = document.createElement("div");
-    div.setAttribute("class", "content-input-header");
-    let subtitle = document.createElement("span");
-    subtitle.textContent = "Digite solo números";
-    let spanX = document.createElement("span");
-    spanX.textContent = "X";
-    let spanY = document.createElement("span");
-    spanY.textContent = "Y";
+    let div = Dom.createDiv({ className: "content-input-header" })
+    let subtitle = Dom.createSpan({ text: "Digite solo números" });
+    let spanX = Dom.createSpan({ text: "X" });
+    let spanY = Dom.createSpan({ text: "Y" });
     div.appendChild(spanX);
     div.appendChild(spanY);
     root.appendChild(subtitle);
@@ -33,20 +31,13 @@ class Table {
   }
 
   static addInput(root) {
-    let div = document.createElement("div");
-    div.setAttribute("class", "content-input-number");
-    let divParam = document.createElement("div");
-    let divValue = document.createElement("div");
-    let input1 = document.createElement("input");
-    let p1 = document.createElement("p");
-    p1.setAttribute("id", "parameterError");
-    input1.setAttribute("type", "text");
-    input1.setAttribute("class", "parametro");
-    let input2 = document.createElement("input");
-    let p2 = document.createElement("p");
-    p2.setAttribute("id", "valueError");
-    input2.setAttribute("type", "text");
-    input2.setAttribute("class", "valor");
+    let div = Dom.createDiv({ className: "content-input-number" });
+    let divParam = Dom.createDiv({});
+    let divValue = Dom.createDiv({});
+    let input1 = Dom.createInput({ className: "parametro" });
+    let p1 = Dom.createParagraph({ id: "parameterError" });
+    let input2 = Dom.createInput({ className: "valor" });
+    let p2 = Dom.createParagraph({ id: "valueError" });
     divParam.appendChild(input1);
     divParam.appendChild(p1);
     divValue.appendChild(input2);
@@ -56,17 +47,10 @@ class Table {
     root.appendChild(div);
   }
 
-  static addButton() {
-    let div = document.createElement("div");
-    div.setAttribute("class", "buttons");
-    let btn1 = document.createElement("button");
-    btn1.setAttribute("class", "addParam");
-    btn1.setAttribute("type", "button");
-    btn1.textContent = " + ";
-    let btn2 = document.createElement("button");
-    btn2.setAttribute("class", "showResult disabled");
-    btn2.setAttribute("type", "button");
-    btn2.textContent = "Calcular";
+  static addButtons() {
+    let div = Dom.createDiv({ className: "buttons", });
+    let btn1 = Dom.createButton({ text: " + ", className: " addParam", });
+    let btn2 = Dom.createButton({ text: "Calcular", className: "showResult disabled", });
     div.appendChild(btn1);
     div.appendChild(btn2);
     return div;
