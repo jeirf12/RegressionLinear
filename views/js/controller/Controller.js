@@ -69,8 +69,8 @@ const loadSelect = (props) => {
 };
 
 const selectLocation = (valueSelect) => {
-  if (valueSelect === "dataExcel") location.href = location.origin + "/views/viewExcel.html";
-  if (valueSelect === "dataManual") location.href = location.origin + "/views/viewManual.html";
+  if (valueSelect === "dataExcel") location.href = location.origin + "/views/templates/viewExcel.html";
+  if (valueSelect === "dataManual") location.href = location.origin + "/views/templates/viewManual.html";
   if (valueSelect === "data") location.replace(location.origin);
 } 
 
