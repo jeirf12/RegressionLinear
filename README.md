@@ -2,13 +2,9 @@
 **See our project deploy [here](https://super-bublanina-e9d84c.netlify.app/)**
 ## :wrench: Instructions Execution Local
 **First of all open a command terminal (CLI):**
-> Then clone the repository with the following command
+> Then clone the repository and access the root directory of the downloaded project with the following command
 ```
-git clone https://github.com/jeirf12/RegressionLinear.git
-```
-> Access the root directory of the downloaded project
-```
-cd RegressionLinear
+git clone https://github.com/jeirf12/RegressionLinear.git && cd RegressionLinear
 ```
 ---
 <details>
